@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -61,7 +62,7 @@ public class MyView extends SimpleContainer {
 								public void onSuccess(BatchText batchText) {
 									text.setText("emailAddr: " + emailAddr);
 									text.setText("batchText: " + batchText);
-
+									Window.alert(emailAddr);
 									// HTML html = new HTML("<p>" + text +
 									// "</p>");
 									// fRootPanel.get("micropieweb").add(html);
@@ -93,7 +94,7 @@ public class MyView extends SimpleContainer {
 							public void onSuccess(BatchText batchText) {
 								text.setText("emailAddr: " + emailAddr);
 								text.setText("batchText: " + batchText);
-
+								Window.alert(emailAddr);
 								// HTML html = new HTML("<p>" + text + "</p>");
 								// fRootPanel.get("micropieweb").add(html);
 
