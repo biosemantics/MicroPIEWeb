@@ -30,12 +30,31 @@ import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyServiceAsync;
 
 public class MyView extends SimpleContainer {
 
-	
 	private IMyServiceAsync service = GWT.create(IMyService.class);
 	private Label text = new Label();
 
 	private String emailAddr = "";
 	private String batchText = "";
+
+	private class submitToMicroPIECallBack implements AsyncCallback<BatchText> {
+		@Override
+		public void onFailure(Throwable t) {
+			t.printStackTrace();
+			text.setText("Something went wrong");
+		}
+
+		@Override
+		// public void onSuccess(Void result) {
+		public void onSuccess(BatchText batchText) {
+			text.setText("emailAddr: " + emailAddr);
+			text.setText("batchText: " + batchText);
+			Window.alert(emailAddr);
+			// HTML html = new HTML("<p>" + text +
+			// "</p>");
+			// fRootPanel.get("micropieweb").add(html);
+
+		}
+	}
 
 	public MyView() {
 
@@ -50,25 +69,7 @@ public class MyView extends SimpleContainer {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					/* make remote call to server to get the message */
 					service.submitToMicroPIE(emailAddr, batchText,
-							new AsyncCallback<BatchText>() {
-								@Override
-								public void onFailure(Throwable t) {
-									t.printStackTrace();
-									text.setText("Something went wrong");
-								}
-
-								@Override
-								// public void onSuccess(Void result) {
-								public void onSuccess(BatchText batchText) {
-									text.setText("emailAddr: " + emailAddr);
-									text.setText("batchText: " + batchText);
-									Window.alert(emailAddr);
-									// HTML html = new HTML("<p>" + text +
-									// "</p>");
-									// fRootPanel.get("micropieweb").add(html);
-
-								}
-							});
+							(AsyncCallback<BatchText>) new submitToMicroPIECallBack());
 				}
 			}
 		});
@@ -82,24 +83,7 @@ public class MyView extends SimpleContainer {
 			public void onClick(ClickEvent event) {
 				/* make remote call to server to get the message */
 				service.submitToMicroPIE(emailAddr, batchText,
-						new AsyncCallback<BatchText>() {
-							@Override
-							public void onFailure(Throwable t) {
-								t.printStackTrace();
-								text.setText("Something went wrong");
-							}
-
-							@Override
-							// public void onSuccess(Void result) {
-							public void onSuccess(BatchText batchText) {
-								text.setText("emailAddr: " + emailAddr);
-								text.setText("batchText: " + batchText);
-								Window.alert(emailAddr);
-								// HTML html = new HTML("<p>" + text + "</p>");
-								// fRootPanel.get("micropieweb").add(html);
-
-							}
-						});
+						(AsyncCallback<BatchText>) new submitToMicroPIECallBack());
 			}
 		});
 
@@ -126,19 +110,19 @@ public class MyView extends SimpleContainer {
 		this.add(text);
 
 		// service.doSomething(new Something(), new AsyncCallback<String>() {
-		// 	@Override
-		//	public void onFailure(Throwable t) {
-		//		t.printStackTrace();
-		//		text.setText("Something went wrong");
-		//	}
+		// @Override
+		// public void onFailure(Throwable t) {
+		// t.printStackTrace();
+		// text.setText("Something went wrong");
+		// }
 
-		//	@Override
-		//	public void onSuccess(String result) {
-		//		// text.setText("Hello World: " + result);
-		
-		//		// HTML html = new HTML("<p>" + text + "</p>");
-		//		// fRootPanel.get("micropieweb").add(html);
-		//	}
+		// @Override
+		// public void onSuccess(String result) {
+		// // text.setText("Hello World: " + result);
+
+		// // HTML html = new HTML("<p>" + text + "</p>");
+		// // fRootPanel.get("micropieweb").add(html);
+		// }
 		// });
 
 	}
