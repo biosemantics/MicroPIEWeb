@@ -2,14 +2,18 @@ package edu.arizona.biosemantics.micropie.web.shared.rpc;
 
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import edu.arizona.biosemantics.micropie.web.shared.model.BatchText;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
 
 @RemoteServiceRelativePath("myService")
 public interface IMyService extends RemoteService{
 	
 	public String doSomething(Something something);
+	
+	public BatchText submitToMicroPIE(String emailAddr, String batchText);
 	
 }
