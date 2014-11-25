@@ -46,9 +46,9 @@ public class MyView extends SimpleContainer {
 		@Override
 		// public void onSuccess(Void result) {
 		public void onSuccess(BatchText batchText) {
-			text.setText("emailAddr: " + emailAddr);
-			text.setText("batchText: " + batchText);
-			Window.alert(emailAddr);
+			text.setText("emailAddr: " + batchText.getEmailAddr());
+			text.setText("batchText: " + batchText.getBatchText());
+			Window.alert(batchText.getEmailAddr());
 			// HTML html = new HTML("<p>" + text +
 			// "</p>");
 			// fRootPanel.get("micropieweb").add(html);
@@ -67,9 +67,9 @@ public class MyView extends SimpleContainer {
 			@Override
 			// public void onSuccess(Void result) {
 			public void onSuccess(BatchText batchText) {
-				text.setText("emailAddr: " + emailAddr);
-				text.setText("batchText: " + batchText);
-				Window.alert(emailAddr);
+				text.setText("emailAddr: " + batchText.getEmailAddr());
+				text.setText("batchText: " + batchText.getBatchText());
+				Window.alert(batchText.getEmailAddr());
 				// HTML html = new HTML("<p>" + text +
 				// "</p>");
 				// fRootPanel.get("micropieweb").add(html);
