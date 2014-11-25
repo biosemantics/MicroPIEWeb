@@ -14,6 +14,13 @@ public class Configuration {
 	
 	public static String variable;
 	
+	/** Files **/	
+	public static String targetNamespace;
+	public static String taxonDescriptionSchemaFileWeb;
+	public static String markedUpTaxonDescriptionSchemaFileWeb;
+	
+	
+	
 	static {		
 		try {
 			ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -21,6 +28,15 @@ public class Configuration {
 			properties.load(loader.getResourceAsStream("edu/arizona/biosemantics/micropie/web/config.properties"));
 			
 			variable = properties.getProperty("variable");
+			
+			
+			targetNamespace = properties.getProperty("targetNamespace");
+			taxonDescriptionSchemaFileWeb = properties.getProperty("taxonDescriptionSchemaFileWeb");
+			markedUpTaxonDescriptionSchemaFileWeb = properties.getProperty("markedUpTaxonDescriptionSchemaFileWeb");
+
+			
+			
+			
 		} catch(Exception e) {
 			logger.error("Couldn't read configuration", e);
 		}
