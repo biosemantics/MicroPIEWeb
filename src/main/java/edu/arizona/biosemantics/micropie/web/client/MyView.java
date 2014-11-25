@@ -58,6 +58,28 @@ public class MyView extends SimpleContainer {
 
 	public MyView() {
 
+		
+		
+		final AsyncCallback<BatchText> acb = new AsyncCallback<BatchText>() {
+			@Override
+			public void onFailure(Throwable t) {
+				t.printStackTrace();
+				text.setText("Something went wrong");
+			}
+
+			@Override
+			// public void onSuccess(Void result) {
+			public void onSuccess(BatchText batchText) {
+				text.setText("emailAddr: " + emailAddr);
+				text.setText("batchText: " + batchText);
+				Window.alert(emailAddr);
+				// HTML html = new HTML("<p>" + text +
+				// "</p>");
+				// fRootPanel.get("micropieweb").add(html);
+
+			}
+		};
+		
 		/* create UI */
 		final TextBox txtName = new TextBox();
 		txtName.setWidth("200");
@@ -68,8 +90,8 @@ public class MyView extends SimpleContainer {
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					/* make remote call to server to get the message */
-					service.submitToMicroPIE(emailAddr, batchText,
-							(AsyncCallback<BatchText>) new submitToMicroPIECallBack());
+					service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
+							acb);
 				}
 			}
 		});
@@ -82,8 +104,8 @@ public class MyView extends SimpleContainer {
 			@Override
 			public void onClick(ClickEvent event) {
 				/* make remote call to server to get the message */
-				service.submitToMicroPIE(emailAddr, batchText,
-						(AsyncCallback<BatchText>) new submitToMicroPIECallBack());
+				service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
+						acb);
 			}
 		});
 
@@ -109,21 +131,21 @@ public class MyView extends SimpleContainer {
 
 		this.add(text);
 
-		// service.doSomething(new Something(), new AsyncCallback<String>() {
-		// @Override
-		// public void onFailure(Throwable t) {
-		// t.printStackTrace();
-		// text.setText("Something went wrong");
-		// }
+		service.doSomething(new Something(), new AsyncCallback<String>() {
+			@Override
+			public void onFailure(Throwable t) {
+				t.printStackTrace();
+				text.setText("Something went wrong");
+			}
 
-		// @Override
-		// public void onSuccess(String result) {
-		// // text.setText("Hello World: " + result);
+			@Override
+			public void onSuccess(String result) {
+				text.setText("Hello World: " + result);
 
-		// // HTML html = new HTML("<p>" + text + "</p>");
-		// // fRootPanel.get("micropieweb").add(html);
-		// }
-		// });
+				// HTML html = new HTML("<p>" + text + "</p>");
+				// fRootPanel.get("micropieweb").add(html);
+			}
+		});
 
 	}
 
