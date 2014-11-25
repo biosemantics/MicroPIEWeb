@@ -57,9 +57,6 @@ public class MyView extends SimpleContainer {
 	}
 
 	public MyView() {
-
-		
-		
 		final AsyncCallback<BatchText> acb = new AsyncCallback<BatchText>() {
 			@Override
 			public void onFailure(Throwable t) {
@@ -126,12 +123,17 @@ public class MyView extends SimpleContainer {
 		DecoratorPanel panel = new DecoratorPanel();
 		panel.add(vPanel);
 
-		// Add widgets to the root panel.
-		RootPanel.get("micropieweb").add(panel);
+		// this "MyView" is already a panel itself. Look it extends SimpleContainer, which is a panel type
+		// this "MyView" is attached to the root. Because of this, you have to set children of "this" panel
+		// to something you want to show, in your case the "panel" (a DecoratorPanel)
+		this.setWidget(panel);
+		
 
-		this.add(text);
-
-		service.doSomething(new Something(), new AsyncCallback<String>() {
+		/*
+		 * you don't really need this anymore, that was only an example code? -> delete
+		 */
+		/*this.add(text);
+		 service.doSomething(new Something(), new AsyncCallback<String>() {
 			@Override
 			public void onFailure(Throwable t) {
 				t.printStackTrace();
@@ -145,7 +147,7 @@ public class MyView extends SimpleContainer {
 				// HTML html = new HTML("<p>" + text + "</p>");
 				// fRootPanel.get("micropieweb").add(html);
 			}
-		});
+		});*/
 
 	}
 
