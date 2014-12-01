@@ -19,6 +19,7 @@ import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
 import edu.arizona.biosemantics.micropie.web.shared.model.process.file.XmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.shared.model.file.XmlModelFile;
 
+import edu.arizona.biosemantics.micropie.web.server.process.file.ServerXmlModelFileCreator;
 
 public class MyService extends RemoteServiceServlet implements IMyService {
 
@@ -53,45 +54,27 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 			new File(customizedFolderName).mkdirs();
 			
 			// final StringBuilder overallError = new StringBuilder();
-			// final List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
-			// int counter = 1;
+			List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
 			
 			for (int i = 0; i < treatments.size(); i++ ) {
 				System.out.println("treatments.get(i)::" + treatments.get(i));
-				// String operator = "N/A";
-				// XmlModelFileCreator xmlModelFileCreator = new XmlModelFileCreator();
-				// overallXmlModelFiles = xmlModelFileCreator.createXmlModelFiles(treatments.get(i), operator);
-			}
-			
-			
-		}
-		
-		
-		/*
-		//temporarily in place as long as we are not sure about the stability of out of memory issue
-		if(treatments.size() > 50) {
-			// Alerter.tooManyFiles();
-			// view.hideProgress();
-			
-			return;
-		}
-		
-		final StringBuilder overallError = new StringBuilder();
-		final List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
-
-		int counter = 1;
-		for (XmlModelFile xmlModelFile : overallXmlModelFiles) {
-			try (PrintWriter out = new PrintWriter(
-						new BufferedWriter(new FileWriter(
-								"inputForm-" + counter + ".xml", true)))) {
-					out.println(overallError);
+				String operator = "MicroPIEWebAgent";
+				ServerXmlModelFileCreator serverXmlModelFileCreator = new ServerXmlModelFileCreator();
+				XmlModelFile xmlModelFile = serverXmlModelFileCreator.createXmlModelFile(treatments.get(i), operator);
+				try (PrintWriter out = new PrintWriter(
+						new BufferedWriter(new FileWriter(customizedFolderName + 
+								"/inputForm-" + i + ".xml", true)))) {
+					out.println(xmlModelFile.getXML());
 				} catch (IOException e) {
 					// exception handling left as an exercise for the reader
 				}
-			counter++;
+			}
+			
+			
+			
 		}
 		
-		*/
+
 		
 		
 		
