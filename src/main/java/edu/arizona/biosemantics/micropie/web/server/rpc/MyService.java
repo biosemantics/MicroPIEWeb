@@ -10,7 +10,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.arizona.biosemantics.micropie.web.shared.model.BatchText;
@@ -18,12 +20,26 @@ import edu.arizona.biosemantics.micropie.web.shared.model.Something;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
 import edu.arizona.biosemantics.micropie.web.shared.model.process.file.XmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.shared.model.file.XmlModelFile;
-
 import edu.arizona.biosemantics.micropie.web.server.process.file.ServerXmlModelFileCreator;
+import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.ExtraJvmMicroPIE;
+import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.MicroPIE;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
 public class MyService extends RemoteServiceServlet implements IMyService {
 
+	
+	
 	private XmlModelFileCreator xmlModelFileCreator = new XmlModelFileCreator();
+	
+	private ListeningExecutorService executorService;
+
+	public MyService() {
+		executorService = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(50));
+	}
+	
 	
 	@Override
 	public String doSomething(Something something) {
@@ -50,6 +66,9 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 		
 		// Step 2: if ( isValidBatchText == true ) { // create the target folder
 		if ( isValidBatchText == true ) {
+			String workingDir = System.getProperty("user.dir");
+			System.out.println("Current working directory : " + workingDir);
+			
 			String customizedFolderName = "Elvis_Test";
 			new File(customizedFolderName).mkdirs();
 			
@@ -67,14 +86,43 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					out.println(xmlModelFile.getXML());
 				} catch (IOException e) {
 					// exception handling left as an exercise for the reader
+					System.out.println("Fail to create XML files");
 				}
 			}
 			
-			
+			System.out.println("Finish Creating XML Files.");
 			
 		}
 		
+		
+		
+		
+		
+		final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOnput");
 
+		
+		
+		final ListenableFuture<Void> futureResult = executorService.submit(microPIE);
+		
+		
+		
+		futureResult.addListener(new Runnable() {
+		     	public void run() {	
+		     		try {
+			     		if(microPIE.isExecutedSuccessfully()) {
+			     			if(!futureResult.isCancelled()) {
+								
+								System.out.println("Prepare to send email notification");
+								// send an email to the user who owns the task.
+								// sendFinishedGeneratingMatrixEmail(task);
+			     			}
+			     		} 
+		     		} catch(Throwable t) {
+		     			// fail 
+		     		}
+		     	}
+		     }, executorService);		
+		
 		
 		
 		

@@ -25,14 +25,19 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 	
 	private String inputDirPara;
 	private String inputDir;
+	private String outputDirPara;
+	private String outputDir;
 
 
-	public ExtraJvmMicroPIE(String inputDirPara, String inputDir) {
+	public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir) {
 		this.inputDirPara = inputDirPara;
 		this.inputDir = inputDir;
+		this.outputDirPara = outputDirPara;
+		this.outputDir = outputDir;
 		
-		//this.setArgs(createArgs());
-		////could be reduced to only libraries relevant to matrixgeneration
+		this.setArgs(createArgs());
+		
+		//could be reduced to only libraries relevant to matrixgeneration
 		//if(!Configuration.matrixgeneration_xms.isEmpty()) 
 		//	this.setXms(Configuration.matrixgeneration_xms);
 		//if(!Configuration.matrixgeneration_xmx.isEmpty()) 
@@ -42,13 +47,20 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 		//else
 		//	this.setClassPath(Configuration.classpath);
 		
+		// no need for the above settings
+		
+		this.setClassPath(System.getProperty("java.class.path"));
+		
 		this.setMainClass(MainWrapper.class);
+		
 	}
 	
 	private String[] createArgs() {
-		String[] args = new String[2];
+		String[] args = new String[4];
 		args[0] = inputDirPara;
 		args[1] = inputDir;
+		args[2] = outputDirPara;
+		args[3] = outputDir;
 		
 		return args;
 	}
@@ -63,7 +75,7 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 	}
 	
 	public static void main(String[] args) throws Exception {
-		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-s", "Elvis_Test");
+		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
 		micropie.call();
 		
 	}
