@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 
-import edu.arizona.biosemantics.micropie.web.shared.model.BatchText;
+import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyServiceAsync;
@@ -36,7 +36,7 @@ public class MyView extends SimpleContainer {
 	private String emailAddr = "";
 	private String batchText = "";
 
-	private class submitToMicroPIECallBack implements AsyncCallback<BatchText> {
+	private class submitToMicroPIECallBack implements AsyncCallback<SubmitToMicroPIE> {
 		@Override
 		public void onFailure(Throwable t) {
 			t.printStackTrace();
@@ -45,10 +45,10 @@ public class MyView extends SimpleContainer {
 
 		@Override
 		// public void onSuccess(Void result) {
-		public void onSuccess(BatchText batchText) {
-			text.setText("emailAddr: " + batchText.getEmailAddr());
-			text.setText("batchText: " + batchText.getBatchText());
-			Window.alert(batchText.getEmailAddr());
+		public void onSuccess(SubmitToMicroPIE submitToMicroPIE) {
+			text.setText("emailAddr: " + submitToMicroPIE.getEmailAddr());
+			text.setText("batchText: " + submitToMicroPIE.getBatchText());
+			Window.alert(submitToMicroPIE.getReturnMsg());
 			// HTML html = new HTML("<p>" + text +
 			// "</p>");
 			// fRootPanel.get("micropieweb").add(html);
@@ -57,7 +57,7 @@ public class MyView extends SimpleContainer {
 	}
 
 	public MyView() {
-		final AsyncCallback<BatchText> acb = new AsyncCallback<BatchText>() {
+		final AsyncCallback<SubmitToMicroPIE> acb = new AsyncCallback<SubmitToMicroPIE>() {
 			@Override
 			public void onFailure(Throwable t) {
 				t.printStackTrace();
@@ -66,10 +66,10 @@ public class MyView extends SimpleContainer {
 
 			@Override
 			// public void onSuccess(Void result) {
-			public void onSuccess(BatchText batchText) {
-				text.setText("emailAddr: " + batchText.getEmailAddr());
-				text.setText("batchText: " + batchText.getBatchText());
-				Window.alert(batchText.getEmailAddr());
+			public void onSuccess(SubmitToMicroPIE submitToMicroPIE) {
+				text.setText("emailAddr: " + submitToMicroPIE.getEmailAddr());
+				text.setText("batchText: " + submitToMicroPIE.getBatchText());
+				Window.alert(submitToMicroPIE.getReturnMsg());
 				// HTML html = new HTML("<p>" + text +
 				// "</p>");
 				// fRootPanel.get("micropieweb").add(html);
@@ -87,22 +87,28 @@ public class MyView extends SimpleContainer {
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					/* make remote call to server to get the message */
+					// service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
+					// 		acb);
 					service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
-							acb);
+							(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
+					
 				}
 			}
 		});
-		Label lblName = new Label("Enter your email address: ");
-		Label lblName2 = new Label("BatchText: ");
+		Label lblName = new Label("Please enter your email address: ");
+		Label lblName2 = new Label("Paste Microbe Taxonomic Description Here: ");
 
-		Button buttonMessage = new Button("run Micropie");
+		Button buttonMessage = new Button("extract characters");
 
 		buttonMessage.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				/* make remote call to server to get the message */
+				// service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
+				// 		acb);
 				service.submitToMicroPIE(txtName.getValue(), txtArea.getValue(),
-						acb);
+						(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
+				
 			}
 		});
 

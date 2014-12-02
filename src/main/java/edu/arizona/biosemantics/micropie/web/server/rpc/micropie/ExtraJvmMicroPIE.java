@@ -76,6 +76,9 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 	
 	public static void main(String[] args) throws Exception {
 		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
+		// ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "456");
+		// tjis one works!!
+		
 		micropie.call();
 		
 	}

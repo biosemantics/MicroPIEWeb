@@ -19,7 +19,15 @@ public class Configuration {
 	public static String taxonDescriptionSchemaFileWeb;
 	public static String markedUpTaxonDescriptionSchemaFileWeb;
 	
+	public static String email_smtp_server;
+	public static String email_smtp_port;
+	public static String email_address;
+	public static String email_password;
 	
+	public static String emailSMTPServer;
+	public static String emailSMTPPort;
+	public static String emailAddress;
+	public static String emailPassword;
 	
 	static {		
 		try {
@@ -35,6 +43,15 @@ public class Configuration {
 			markedUpTaxonDescriptionSchemaFileWeb = properties.getProperty("markedUpTaxonDescriptionSchemaFileWeb");
 
 			
+			email_smtp_server = properties.getProperty("email_smtp_server");
+			email_smtp_port = properties.getProperty("email_smtp_port");
+			email_address = properties.getProperty("email_address");
+			email_password = properties.getProperty("email_password");
+			
+			emailSMTPServer = properties.getProperty("email_smtp_server");
+			emailSMTPPort = properties.getProperty("email_smtp_port");
+			emailAddress = properties.getProperty("email_address");
+			emailPassword = properties.getProperty("email_password");
 			
 			
 		} catch(Exception e) {
