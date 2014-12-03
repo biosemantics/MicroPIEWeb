@@ -1,13 +1,20 @@
 package edu.arizona.biosemantics.micropie.web.server.rpc.micropie;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+
 import edu.arizona.biosemantics.micropie.web.server.Configuration;
 import edu.arizona.biosemantics.micropie.web.server.ExtraJvmCallable;
+import edu.arizona.biosemantics.micropie.web.server.util.UnZip;
 import edu.arizona.biosemantics.common.log.LogLevel;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.micropie.MicroPIEException;
-//import edu.arizona.biosemantics.micropie.web.shared.rpc.semanticmarkup.SemanticMarkupException;
+
+
+
 
 public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE {
 
@@ -27,13 +34,16 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 	private String inputDir;
 	private String outputDirPara;
 	private String outputDir;
+	// private String micropieSourceDir;
 
 
+	// public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir, String micropieSourceDir) {
 	public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir) {
 		this.inputDirPara = inputDirPara;
 		this.inputDir = inputDir;
 		this.outputDirPara = outputDirPara;
 		this.outputDir = outputDir;
+		// this.micropieSourceDir = micropieSourceDir;
 		
 		this.setArgs(createArgs());
 		
@@ -49,9 +59,56 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 		
 		// no need for the above settings
 		
-		this.setClassPath(System.getProperty("java.class.path"));
+		
+		
+		// Step 2: Copy micropieInput folder
+		// System.out.println("Hello Elvis!");
+		// System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
+		
+		String source = "micropieInput";
+		// String source = "123";
+        File srcDir = new File(source);
+        
+        //
+        // The destination directory to copy to. This directory
+        // doesn't exists and will be created during the copy
+        // directory process.
+        //
+        
+		
+        // String destination = micropieSourceDir;
+        String destination = inputDir;
+
+        
+        
+        File destDir = new File(destination);
+ 
+        try {
+            //
+            // Copy source directory into destination directory
+            // including its child directories and files. When
+            // the destination directory is not exists it will
+            // be created. This copy process also preserve the
+            // date information of the file.
+            //
+            FileUtils.copyDirectory(srcDir, destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        UnZip unZip = new UnZip();
+    	unZip.unZipIt(inputDir + "/usp_base.zip", inputDir + "/usp_base");
+        
+		
+		
+        // Step 3: Run the wrapper
+        
+        this.setClassPath(System.getProperty("java.class.path"));
 		
 		this.setMainClass(MainWrapper.class);
+		
+		
+		
 		
 	}
 	

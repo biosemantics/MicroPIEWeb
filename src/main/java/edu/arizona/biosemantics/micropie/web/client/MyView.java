@@ -113,6 +113,9 @@ public class MyView extends SimpleContainer {
 		});
 
 		HorizontalPanel hPanel = new HorizontalPanel();
+		
+		
+		
 		hPanel.add(lblName);
 		hPanel.add(txtName);
 		hPanel.add(lblName2);

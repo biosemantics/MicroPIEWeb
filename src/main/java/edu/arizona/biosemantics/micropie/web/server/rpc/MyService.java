@@ -7,10 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.security.Security;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,6 +35,7 @@ import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
 import edu.arizona.biosemantics.micropie.web.shared.model.process.file.XmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.shared.model.file.XmlModelFile;
 import edu.arizona.biosemantics.micropie.web.server.Emailer;
+import edu.arizona.biosemantics.micropie.web.server.MailSender;
 import edu.arizona.biosemantics.micropie.web.server.process.file.ServerXmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.ExtraJvmMicroPIE;
 import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.MicroPIE;
@@ -43,7 +46,9 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 public class MyService extends RemoteServiceServlet implements IMyService {
 
-	private Emailer emailer = new Emailer();
+	private MailSender emailer = new MailSender();
+	
+	// private Emailer emailer = new Emailer();
 	
 	private XmlModelFileCreator xmlModelFileCreator = new XmlModelFileCreator();
 	
@@ -62,7 +67,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 
 
 	@Override
-	public SubmitToMicroPIE submitToMicroPIE(final String emailAddr, String batchText) {
+	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText) {
 
 		
 		String returnMsg = "";
@@ -214,10 +219,10 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				timestamp = timestamp.replace(":", "_");
 				timestamp = timestamp.replace(".", "_");
 				
-				String emailAddr2 = emailAddr.replace("@", "_");
-				emailAddr2 = emailAddr2.replace(".", "_");
+				String emailAddr2 = emailAddr.replace("@", "_at_");
+				emailAddr2 = emailAddr2.replace(".", "_dot_");
 				
-				customizedFolderName = emailAddr2 + "-" + timestamp;
+				customizedFolderName = emailAddr2 + "_" + timestamp;
 				new File(customizedFolderName).mkdirs();
 				new File(customizedFolderName + "/input").mkdirs();
 				
@@ -268,51 +273,22 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 			
 			
 			
-			/*
 			
-			// Step 3: copy micropieInput
-			
-			String source = "micropieInput";
-	        File srcDir = new File(source);
-	 
-	        //
-	        // The destination directory to copy to. This directory
-	        // doesn't exists and will be created during the copy
-	        // directory process.
-	        //
-	        String destination = customizedFolderName;
-	        File destDir = new File(destination);
-	 
-	        try {
-	            //
-	            // Copy source directory into destination directory
-	            // including its child directories and files. When
-	            // the destination directory is not exists it will
-	            // be created. This copy process also preserve the
-	            // date information of the file.
-	            //
-	            FileUtils.copyDirectory(srcDir, destDir);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        
-	        */
-			
-			
-			
-			// Step 4: run MicroPIE
+			// Step 3: run MicroPIE
 			
 			// String customizedFolderName
 			
 			
 			
 			// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
-			final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "123", "-o", "456");
-	        // final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", customizedFolderName, "-o", customizedFolderName + "-output");
+			// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "123", "-o", "456");
+	        final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", customizedFolderName, "-o", customizedFolderName + "-output");
 			
 			
 			final ListenableFuture<Void> futureResult = executorService.submit(microPIE);
 			
+			final String customizedFolderName2 = customizedFolderName;
+			final String emailAddr2 = emailAddr;
 			
 			
 			futureResult.addListener(new Runnable() {
@@ -325,11 +301,23 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 									// send an email to the user who owns the task.
 									// sendFinishedGeneratingMatrixEmail(task);
 									
-									String email = emailAddr;
-									String subject = "test email";
-									String body = "here is the body";
+									String email = emailAddr2;
+									String subject = "The MicroPIE matrix of your ";
+									String body = "Hi MicroPIEWeb user<br>The MicroPIE matrix is sent to you. Please check the attached csv file, thanks.<br> Admin of MicroPIEWeb";
 									
-									emailer.sendEmail(email, subject, body);
+									
+									String sendTo = email;
+									String emailSubjectTxt = subject;
+									String emailMsgTxt = body;
+									String emailFromAddress = "admin@micropieweb.org";
+									
+									Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+
+							        String[] filenames = { customizedFolderName2 + "-output/matrix.csv" };
+
+							        new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
+							                emailFromAddress, filenames);
+							        System.out.println("Sucessfully Sent mail to All Users");
 									
 									
 				     			}
