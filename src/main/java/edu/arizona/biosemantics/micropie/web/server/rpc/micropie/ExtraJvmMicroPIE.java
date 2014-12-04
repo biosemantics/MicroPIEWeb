@@ -22,7 +22,11 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 		
 		public static void main(String[] args) {
 			try {
-				edu.arizona.biosemantics.micropie.Main.main(args);
+				// edu.arizona.biosemantics.micropie.Main.main(args);
+				
+				System.out.println("Call MicroPIE successfully!");
+				
+				
 			} catch (Throwable t) {
 				System.exit(-1);
 			}
@@ -89,11 +93,15 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements MicroPIE
 		if(exitStatus != 0) {
 			log(LogLevel.ERROR, "Call MicroPIE failed.");
 			throw new MicroPIEException();
+		} else {
+			log(LogLevel.TRACE, "Call MicroPIE successfully!");	
 		}
 		return null;
 	}
 	
 	public static void main(String[] args) throws Exception {
+		
+		
 		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
 		// ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "456");
 		// tjis one works!!

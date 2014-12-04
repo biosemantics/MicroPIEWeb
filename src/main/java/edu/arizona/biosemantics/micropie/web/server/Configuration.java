@@ -29,6 +29,8 @@ public class Configuration {
 	public static String emailAddress;
 	public static String emailPassword;
 	
+	public static String rootDir;
+	
 	static {		
 		try {
 			ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -52,6 +54,8 @@ public class Configuration {
 			emailSMTPPort = properties.getProperty("email_smtp_port");
 			emailAddress = properties.getProperty("email_address");
 			emailPassword = properties.getProperty("email_password");
+			
+			rootDir = properties.getProperty("rootDir");
 			
 			
 		} catch(Exception e) {

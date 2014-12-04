@@ -93,6 +93,10 @@ public class MailSender {
             throws MessagingException, AddressException {
         for (int i = 0; i <= attachments.length - 1; i++) {
             String filename = attachments[i];
+            
+            String[] filenameArray = attachments[i].split("/");
+            String filenameOnAttachemnt = attachments[i].split("/")[filenameArray.length-1];            
+            
             MimeBodyPart attachmentBodyPart = new MimeBodyPart();
 
             // use a JAF FileDataSource as it does MIME type detection
@@ -101,7 +105,7 @@ public class MailSender {
 
             // assume that the filename you want to send is the same as the
             // actual file name - could alter this to remove the file path
-            attachmentBodyPart.setFileName(filename);
+            attachmentBodyPart.setFileName(filenameOnAttachemnt);
 
             // add the attachment
             multipart.addBodyPart(attachmentBodyPart);
