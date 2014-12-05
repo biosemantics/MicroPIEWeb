@@ -215,6 +215,10 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					System.out.println("Current working directory : " + workingDir);
 					
 					
+					String workingDir2 = getServletContext().getRealPath("/");
+					System.out.println("workingDir2 : " + workingDir2);
+
+					
 					// Create customized folder
 					// 
 					
@@ -234,8 +238,8 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					
 					userFolderName = emailAddrOddSymbolRemoved + "_" + timestamp;
 					
-					// fullUserFolder = Configuration.rootDir + File.separator + userFolderName;
-					fullUserFolder = userFolderName;
+					fullUserFolder = Configuration.rootDir + File.separator + userFolderName;
+					// fullUserFolder = userFolderName;
 					
 					new File(fullUserFolder).mkdirs();
 					new File(fullUserFolder + File.separator + "input").mkdirs();
@@ -294,7 +298,8 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				
 				// String source = Configuration.rootDir + File.separator + "micropieInput_zip";
 				// String source = Configuration.rootDir + File.separator + "micropieInput";
-				String source = "micropieInput";
+				// String source = "micropieInput";
+				String source = "micropieInput_zip";
 				
 				File srcDir = new File(source);
 		        
@@ -328,8 +333,8 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 		            e.printStackTrace();
 		        }
 		        
-		        // UnZip unZip = new UnZip();
-		    	// unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
+		        UnZip unZip = new UnZip();
+		    	unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
 		        
 							
 				
@@ -369,7 +374,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 
 										// Admin of MicroPIEWeb
 										
-										/*
+										
 										String email = emailAddr2;
 										String subject = "The MicroPIE matrix of your taxonomic description(s)";
 										String body = "Hi MicroPIEWeb user,<br><br>You started a job on MicroPIEWeb. Now MicroPIE has generated the matrix for you. Please check the attached csv file, thanks.<br><br>Administrator of MicroPIEWeb";
@@ -387,7 +392,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 								        new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
 								                emailFromAddress, filenames);
 								        System.out.println("Sucessfully Sent mail to All Users");
-										*/
+										
 										
 					     			}
 					     		} 

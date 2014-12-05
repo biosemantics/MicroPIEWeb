@@ -31,6 +31,8 @@ public class Configuration {
 	
 	public static String rootDir;
 	
+	public static String classpath;
+	
 	static {		
 		try {
 			ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -56,6 +58,8 @@ public class Configuration {
 			emailPassword = properties.getProperty("email_password");
 			
 			rootDir = properties.getProperty("rootDir");
+			
+			classpath = properties.getProperty("classpath");
 			
 			
 		} catch(Exception e) {

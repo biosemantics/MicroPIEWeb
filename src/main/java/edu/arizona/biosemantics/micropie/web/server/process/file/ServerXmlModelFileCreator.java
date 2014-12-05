@@ -74,6 +74,7 @@ public class ServerXmlModelFileCreator extends edu.arizona.biosemantics.micropie
 		TextPresenter presenter = new TextPresenter(view);
 		view.setPresenter(presenter);
 		presenter.showMessage(title, text);*/
+		
 		log(LogLevel.TRACE, title + ": " + text);
 	}	
 
