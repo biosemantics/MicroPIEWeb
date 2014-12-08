@@ -59,11 +59,26 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 			command += " -Xmx " + xmx;
 		if(xms != null)
 			command += " -Xms " + xms;
-		log(LogLevel.INFO, "Run in an extra JVM: " + command);
+		
+		// log(LogLevel.INFO, "Hello Elvis0!!");
+		// log(LogLevel.INFO, "classPath: " + classPath);
+		// log(LogLevel.INFO, "mainClass.getName(): " + mainClass.getName());
+		// log(LogLevel.INFO, "args: " + args.toString());
+		// log(LogLevel.INFO, "Run in an extra JVM: " + command);
+		// log(LogLevel.INFO, "Hello Elvis1!!");
+		// // String javaExecutable0 = JavaEnvUtils.getJreExecutable("java");
+		// // log(LogLevel.TRACE, "javaExecutable::" + javaExecutable0);
+		// log(LogLevel.INFO, "Hello Elvis2!!");
+		
 		
 		exitStatus = -1;
 		if(classPath != null && mainClass != null && args != null) {
-			String javaExecutable = JavaEnvUtils.getJreExecutable("java");
+			// String javaExecutable = JavaEnvUtils.getJreExecutable("java");
+			
+			// log(LogLevel.TRACE, "javaExecutable::" + javaExecutable);
+			String javaExecutable = "java";
+			// This one needs to be fixed.
+			
 			List<String> commandParts = new LinkedList<String>();
 			commandParts.add(javaExecutable);
 			commandParts.add("-cp");
@@ -78,17 +93,22 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 			processBuilder.redirectError(Redirect.INHERIT);
 			processBuilder.redirectOutput(Redirect.INHERIT);
 			
+	
+			
 			try {
 				process = processBuilder.start();
 				exitStatus = process.waitFor();
-				log(LogLevel.TRACE, "ElvisElvisElvis");
+				log(LogLevel.TRACE, "exitStatus::" + exitStatus);
+				log(LogLevel.TRACE, "processBuilder.start()");
 				
 			} catch(IOException | InterruptedException e) {
 				log(LogLevel.ERROR, "Process couldn't execute successfully", e);
 			}
 			
 			return createReturn();
-		} 
+		}
+		// log(LogLevel.INFO, "Hello Elvis3!!");
+
 		return null;
 	}
 	

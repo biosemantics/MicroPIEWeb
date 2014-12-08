@@ -296,10 +296,10 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				// System.out.println("Hello Elvis!");
 				// System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
 				
-				// String source = Configuration.rootDir + File.separator + "micropieInput_zip";
+				String source = Configuration.rootDir + File.separator + "micropieInput_zip";
 				// String source = Configuration.rootDir + File.separator + "micropieInput";
 				// String source = "micropieInput";
-				String source = "micropieInput_zip";
+				// String source = "micropieInput_zip";
 				
 				File srcDir = new File(source);
 		        
