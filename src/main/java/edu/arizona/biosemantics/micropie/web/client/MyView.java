@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.sencha.gxt.widget.core.client.FramedPanel;
 import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 
 import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
@@ -77,11 +78,17 @@ public class MyView extends SimpleContainer {
 			}
 		};
 		
+		
+		
+		
 		/* create UI */
 		final TextBox txtName = new TextBox();
-		txtName.setWidth("200");
+		txtName.setWidth("500px");
 		final TextArea txtArea = new TextArea();
-		txtArea.setWidth("200");
+		txtArea.setWidth("700px");
+		
+		
+		
 		txtName.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
@@ -95,8 +102,10 @@ public class MyView extends SimpleContainer {
 				}
 			}
 		});
-		Label lblName = new Label("Please enter your email address: ");
-		Label lblName2 = new Label("Paste Microbe Taxonomic Description Here: ");
+
+		Label lblName = new Label("Paste Microbe Taxonomic Description Here: ");
+
+		Label lblName2 = new Label("Please enter your email address: ");
 
 		Button buttonMessage = new Button("extract characters");
 
@@ -112,32 +121,72 @@ public class MyView extends SimpleContainer {
 			}
 		});
 
+		
+		
+		
+		
 		HorizontalPanel hPanel = new HorizontalPanel();
-		
-		
-		
-		hPanel.add(lblName);
+				
 		hPanel.add(txtName);
-		hPanel.add(lblName2);
 		hPanel.add(txtArea);
-		hPanel.setCellWidth(lblName, "130");
+		// hPanel.setCellWidth(lblName, "130");
+		
+		HorizontalPanel hPanel2 = new HorizontalPanel();
+		
+		hPanel2.add(txtName);
+		hPanel2.add(txtName);
+		// hPanel.setCellWidth(lblName, "130");
+
+		
+		FramedPanel fPanel = new FramedPanel();
+		fPanel.setHeadingText("<h2>MicroPIEWeb: The web application of MicroPIE (Microbial Phenomics Information Extractor)</h2>");
+		
+		// fPanel.setHeadingHtml(new HTML("<h1>MicroPIEWeb: The web application of MicroPIE (Microbial Phenomics Information Extractor)</h1>"));
+		
+		fPanel.setWidth("900px");
+		fPanel.setBodyStyle("background: none; padding: 15px");
+		
+
 
 		VerticalPanel vPanel = new VerticalPanel();
+		fPanel.add(vPanel);
+		
 		vPanel.setSpacing(10);
-		vPanel.add(hPanel);
+		vPanel.add(lblName);
+		vPanel.add(txtArea);
+		
+		vPanel.add(lblName2);
+		vPanel.add(txtName);
+		
 		vPanel.add(buttonMessage);
 		vPanel.setCellHorizontalAlignment(buttonMessage,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		DecoratorPanel panel = new DecoratorPanel();
-		panel.add(vPanel);
+		// DecoratorPanel panel = new DecoratorPanel();
+		// panel.setWidth("100%");
+		// panel.setWidth("500");
+		// panel.setWidth("70%");
+		// panel.setWidth("100%");
+		
+		
+		// panel.add(vPanel);
 
+		
+	
+		
+		
 		// this "MyView" is already a panel itself. Look it extends SimpleContainer, which is a panel type
 		// this "MyView" is attached to the root. Because of this, you have to set children of "this" panel
 		// to something you want to show, in your case the "panel" (a DecoratorPanel)
-		this.setWidget(panel);
 		
-
+		// this.setWidget(panel);
+		// this.setWidget(vPanel);
+		// this.setWidget(fPanel);
+		
+		this.setWidget(fPanel);
+		
+		
+		
 		/*
 		 * you don't really need this anymore, that was only an example code? -> delete
 		 */
