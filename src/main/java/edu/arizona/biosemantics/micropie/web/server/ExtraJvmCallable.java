@@ -76,6 +76,7 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 			// String javaExecutable = JavaEnvUtils.getJreExecutable("java");
 			
 			// log(LogLevel.TRACE, "javaExecutable::" + javaExecutable);
+			
 			String javaExecutable = "java";
 			// This one needs to be fixed.
 			

@@ -73,6 +73,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 
 		
 		String returnMsg = "";
+		String returnStatus = "";
 		
 		// Logic
 		
@@ -279,6 +280,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 							// returnMsg = "Finish Creating XML Files.";
 							System.out.println(submitMsg);
 							returnMsg = submitMsg;
+							returnStatus = "OK";
 							
 							
 						} catch (IOException e) {
@@ -428,6 +430,8 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 		submitToMicroPIEObj.setEmailAddr(emailAddr);
 		submitToMicroPIEObj.setBatchText(batchText);
 		submitToMicroPIEObj.setReturnMsg(returnMsg);
+		submitToMicroPIEObj.setReturnStatus(returnStatus);
+		
 		return submitToMicroPIEObj;
 
 	}

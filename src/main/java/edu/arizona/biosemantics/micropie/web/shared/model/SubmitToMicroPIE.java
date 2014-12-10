@@ -8,6 +8,7 @@ public class SubmitToMicroPIE implements Serializable {
 	private String emailAddr;
 	private String batchText;
 	private String returnMsg;
+	private String returnStatus;
 
 	public SubmitToMicroPIE() {
 	};
@@ -36,4 +37,11 @@ public class SubmitToMicroPIE implements Serializable {
 		return returnMsg;
 	}
 
+	public void setReturnStatus(String returnStatus) {
+		this.returnStatus = returnStatus;
+	}
+
+	public String getReturnStatus() {
+		return returnStatus;
+	}	
 }
