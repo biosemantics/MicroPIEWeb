@@ -33,6 +33,10 @@ public class Configuration {
 	
 	public static String classpath;
 	
+	public static String maxMicroPIEWeb;
+	
+	
+	
 	static {		
 		try {
 			ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -60,6 +64,12 @@ public class Configuration {
 			rootDir = properties.getProperty("rootDir");
 			
 			classpath = properties.getProperty("classpath");
+			
+			
+			
+			maxMicroPIEWeb = properties.getProperty("maxMicroPIEWeb");
+
+			
 			
 			
 		} catch(Exception e) {

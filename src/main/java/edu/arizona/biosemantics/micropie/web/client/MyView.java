@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,12 +27,16 @@ import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 
 import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
+import edu.arizona.biosemantics.micropie.web.shared.rpc.IMicroPIEWebService;
+import edu.arizona.biosemantics.micropie.web.shared.rpc.IMicroPIEWebServiceAsync;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyServiceAsync;
 
 public class MyView extends SimpleContainer {
 
-	private IMyServiceAsync service = GWT.create(IMyService.class);
+	// private IMyServiceAsync service = GWT.create(IMyService.class);
+	private IMicroPIEWebServiceAsync service = GWT.create(IMicroPIEWebService.class);
+	
 	private Label text = new Label();
 
 	private String emailAddr = "";
@@ -196,6 +201,8 @@ public class MyView extends SimpleContainer {
 		
 		
 		
+		ScrollPanel sPanel = new ScrollPanel();
+		
 		
 		FramedPanel fPanel = new FramedPanel();
 		fPanel.setHeadingText("<h2>MicroPIEWeb, a web interface for submitting microbial taxonomic descriptions to MicroPIE</h2>");
@@ -204,7 +211,7 @@ public class MyView extends SimpleContainer {
 		
 		fPanel.setWidth("900px");
 		fPanel.setBodyStyle("background: none; padding: 15px");
-		
+	
 
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -244,8 +251,9 @@ public class MyView extends SimpleContainer {
 		// this.setWidget(vPanel);
 		// this.setWidget(fPanel);
 		
-		this.setWidget(fPanel);
-		
+		//this.setWidget(fPanel);
+		sPanel.add(fPanel);
+		this.setWidget(sPanel);
 		
 		
 		/*
