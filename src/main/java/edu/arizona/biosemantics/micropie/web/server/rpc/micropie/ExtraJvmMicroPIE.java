@@ -35,10 +35,8 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 
 	// private String micropieSourceDir;
 
-	// public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String
-	// outputDirPara, String outputDir, String micropieSourceDir) {
-	public ExtraJvmMicroPIE(String inputDirPara, String inputDir,
-			String outputDirPara, String outputDir) {
+	// public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir, String micropieSourceDir) {
+	public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir) {
 		this.inputDirPara = inputDirPara;
 		this.inputDir = inputDir;
 		this.outputDirPara = outputDirPara;
@@ -58,6 +56,58 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 		// this.setClassPath(Configuration.classpath);
 
 		// no need for the above settings
+		
+		
+		
+		
+		// Step 1: Copy micropieInput folder
+		// System.out.println("Hello Elvis!");
+		// System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
+		
+		String source = Configuration.rootDir + File.separator + "micropieInput_zip";
+		// String source = Configuration.rootDir + File.separator + "micropieInput";
+		// String source = "micropieInput";
+		// String source = "micropieInput_zip";
+		
+		File srcDir = new File(source);
+        
+        //
+        // The destination directory to copy to. This directory
+        // doesn't exists and will be created during the copy
+        // directory process.
+        //
+        
+		
+        // String destination = micropieSourceDir;
+        
+		String fullUserFolder = inputDir;
+		String destination = fullUserFolder;
+
+        
+        
+        File destDir = new File(destination);
+ 
+        try {
+            //
+            // Copy source directory into destination directory
+            // including its child directories and files. When
+            // the destination directory is not exists it will
+            // be created. This copy process also preserve the
+            // date information of the file.
+            //
+        	String workingDir = System.getProperty("user.dir");
+			System.out.println("Current working directory : " + workingDir);
+        	
+            FileUtils.copyDirectory(srcDir, destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        UnZip unZip = new UnZip();
+    	unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
+        
+		
+		
 
 		// Step 2: Run the wrapper
 

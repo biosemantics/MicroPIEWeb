@@ -14,6 +14,16 @@
     <servlet-name>MyService</servlet-name>
     <url-pattern>/micropieweb/myService</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>MicroPIEWebService</servlet-name>
+    <servlet-class>edu.arizona.biosemantics.micropie.web.server.rpc.MicroPIEWebService</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MicroPIEWebService</servlet-name>
+    <url-pattern>/micropieweb/MicroPIEWebService</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

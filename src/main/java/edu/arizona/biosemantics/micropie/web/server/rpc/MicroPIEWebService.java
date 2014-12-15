@@ -27,11 +27,17 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
-import edu.arizona.biosemantics.micropie.web.shared.rpc.IMyService;
+
+import edu.arizona.biosemantics.micropie.web.shared.rpc.IMicroPIEWebService;
+
 import edu.arizona.biosemantics.micropie.web.shared.model.process.file.XmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.shared.model.file.XmlModelFile;
 import edu.arizona.biosemantics.micropie.web.server.Configuration;
@@ -42,11 +48,9 @@ import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.ExtraJvmMicroPI
 import edu.arizona.biosemantics.micropie.web.server.rpc.micropie.MicroPIE;
 import edu.arizona.biosemantics.micropie.web.server.util.UnZip;
 
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
 
-public class MicroPIEWebService extends RemoteServiceServlet implements IMyService {
+
+public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPIEWebService {
 
 	private MailSender emailer = new MailSender();
 	
@@ -294,50 +298,51 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMyServi
 				}
 				
 				
-
-				// Step 3: Copy micropieInput folder
-				// System.out.println("Hello Elvis!");
-				// System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
-				
-				String source = Configuration.rootDir + File.separator + "micropieInput_zip";
-				// String source = Configuration.rootDir + File.separator + "micropieInput";
-				// String source = "micropieInput";
-				// String source = "micropieInput_zip";
-				
-				File srcDir = new File(source);
-		        
-		        //
-		        // The destination directory to copy to. This directory
-		        // doesn't exists and will be created during the copy
-		        // directory process.
-		        //
-		        
-				
-		        // String destination = micropieSourceDir;
-		        String destination = fullUserFolder;
-
-		        
-		        
-		        File destDir = new File(destination);
-		 
-		        try {
-		            //
-		            // Copy source directory into destination directory
-		            // including its child directories and files. When
-		            // the destination directory is not exists it will
-		            // be created. This copy process also preserve the
-		            // date information of the file.
-		            //
-		        	String workingDir = System.getProperty("user.dir");
-					System.out.println("Current working directory : " + workingDir);
-		        	
-		            FileUtils.copyDirectory(srcDir, destDir);
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-		        
-		        UnZip unZip = new UnZip();
-		    	unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
+				// Move to ExtraJvmMicroPIE
+				 
+				// // Step 3: Copy micropieInput folder
+				// // System.out.println("Hello Elvis!");
+				// // System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
+				// 
+				// String source = Configuration.rootDir + File.separator + "micropieInput_zip";
+				// // String source = Configuration.rootDir + File.separator + "micropieInput";
+				// // String source = "micropieInput";
+				// // String source = "micropieInput_zip";
+				//
+				// File srcDir = new File(source);
+		        // 
+		        // //
+		        // // The destination directory to copy to. This directory
+		        // // doesn't exists and will be created during the copy
+		        // // directory process.
+		        // //
+		        // 
+				// 
+		        // // String destination = micropieSourceDir;
+		        // // String destination = fullUserFolder;
+				// 
+		        // 
+		        // 
+		        // File destDir = new File(destination);
+				// 
+		        // try {
+		        //    //
+		        //    // Copy source directory into destination directory
+		        //    // including its child directories and files. When
+		        //    // the destination directory is not exists it will
+		        //    // be created. This copy process also preserve the
+		        //    // date information of the file.
+		        //    //
+		        //	 String workingDir = System.getProperty("user.dir");
+				// 	 System.out.println("Current working directory : " + workingDir);
+		        // 	
+		        //     FileUtils.copyDirectory(srcDir, destDir);
+		        // } catch (IOException e) {
+		        //     e.printStackTrace();
+		        // }
+		        // 
+		        // UnZip unZip = new UnZip();
+		    	// unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
 		        
 							
 				

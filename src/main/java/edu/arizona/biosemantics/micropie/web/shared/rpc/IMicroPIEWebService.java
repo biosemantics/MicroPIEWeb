@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
 
-@RemoteServiceRelativePath("myService")
+@RemoteServiceRelativePath("MicroPIEWebService")
 public interface IMicroPIEWebService extends RemoteService{
 	
 	public String doSomething(Something something);
