@@ -103,8 +103,8 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
             e.printStackTrace();
         }
         
-        UnZip unZip = new UnZip();
-    	unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
+        // UnZip unZip = new UnZip();
+    	// unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
         
 		
 		

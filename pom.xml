@@ -115,10 +115,10 @@
 			<version>2.0.5</version>
 		</dependency>
 		<dependency>
-			<groupId>edu.arizona.biosemantics.micropie</groupId>
-			<artifactId>micropie</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+  			<groupId>edu.arizona.biosemantics.micropie</groupId>
+  			<artifactId>micropie</artifactId>
+  			<version>0.0.2-SNAPSHOT</version>
+		</dependency>		
 	</dependencies>
 	<build>
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
