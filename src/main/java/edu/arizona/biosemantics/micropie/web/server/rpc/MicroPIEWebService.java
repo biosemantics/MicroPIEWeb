@@ -249,7 +249,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 					
 					new File(fullUserFolder).mkdirs();
 					new File(fullUserFolder + File.separator + "input").mkdirs();
-					new File(fullUserFolder + "-output").mkdirs();
+					// new File(fullUserFolder + "-output").mkdirs(); => It should be occured in ExtraJvmMicroPIE..java => call micropie2	
 					
 					System.out.println("fullUserFolder::" + fullUserFolder);
 					
@@ -445,3 +445,4 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 
 	
 }
+
