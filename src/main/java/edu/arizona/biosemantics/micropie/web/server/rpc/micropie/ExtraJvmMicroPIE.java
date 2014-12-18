@@ -105,7 +105,7 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
         
         // UnZip unZip = new UnZip();
     	// unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
-        new File(fullUserFolder + File.separator + "usp_base").mkdirs();
+        // new File(fullUserFolder + File.separator + "usp_base").mkdirs();
 		
 		
 
