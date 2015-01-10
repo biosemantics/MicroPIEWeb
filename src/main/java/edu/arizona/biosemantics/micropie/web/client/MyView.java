@@ -179,10 +179,10 @@ public class MyView extends SimpleContainer {
 			}
 		});
 
-		Label lblName = new Label("Paste Microbe Taxonomic Description Here: ");
+		Label lblName = new Label("Paste Microbe Taxonomic Description Here (a sample description is already provided): ");
 
 		Label lblName2 = new Label(
-				"* Right now MicroPIEWeb accept at most 50 taxonomic descriptions per submission.");
+				"* Right now MicroPIEWeb accepts at most 50 taxonomic descriptions per submission.");
 
 		Label lblName3 = new Label("Please enter your email address: ");
 
@@ -193,9 +193,9 @@ public class MyView extends SimpleContainer {
 		
 		
 		// String lblName5String = "<b>Brief Description of MicroPIE:</b><br>";
-		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilize domain experts knowledge and unsupervised machine learning techniques to extract pheomic characters.<br>";
+		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilizes domain expert's knowledge and unsupervised machine learning techniques to extract phenomic characters.<br>";
 
-		lblName5String += "MicroPIE algorithms and software implementation are embedded into MicroPIEWeb so users can easily paste microbial taxonomic descriptions with suggested format to MicroPIEWeb, click the \"extract characters\" button to run MicroPIE algorithms, and then receive MicroPIE extracted matrix (in CSV format) via email.<br>";
+		lblName5String += "MicroPIE algorithms and software implementation are embedded into MicroPIEWeb so users can easily paste microbial taxonomic descriptions in the required format to MicroPIEWeb, click the \"extract characters\" button to run MicroPIE algorithms, and then receive MicroPIE extracted matrix (in CSV format) via email.<br>";
 
 		lblName5String += "MicroPIE is part of an NSF funded research project titled <a href=\"http://avatol.org/ngp/\">AVAToL: Next Generation Phenomics for the Tree of Life</a> (NSF DEB #1208256).<br>";
 
@@ -203,7 +203,7 @@ public class MyView extends SimpleContainer {
 
 		lblName5String += "Currently, all parameters of setting are fixed for simple submissions. We are working on opening more setting parameters for users to customize the characters they want to extract.<br>";
 
-		lblName5String += "To know more about MicroPIE, please go to here to see our <a href=\"http://www.slideshare.net/elviscat/httpwwwresearchgatenetpublication261707283avatolmicrobialphenomicsanontologyandnaturallanguageprocessingtoolstofacilitatetraitevolutionstudiesforthearchaealdomainoflife\">presentation at Evolution 2014</a>.<br>";
+		lblName5String += "To know more about MicroPIE, please go here to see our <a href=\"http://www.slideshare.net/elviscat/httpwwwresearchgatenetpublication261707283avatolmicrobialphenomicsanontologyandnaturallanguageprocessingtoolstofacilitatetraitevolutionstudiesforthearchaealdomainoflife\">presentation at Evolution 2014</a>.<br>";
 
 		lblName5String += "If you have any questions, suggestion, and comments, please contact principal investigator Dr. Hong Cui (hong1.cui at gmail.com ) and principal developer Elvis Hsin-Hui Wu (elviscat at gmail.com).";
 
@@ -309,9 +309,10 @@ public class MyView extends SimpleContainer {
 		vPanel.add(disclosurePanel);
 		
 		vPanel.add(lblName);
+		vPanel.add(buttons);
 		vPanel.add(txtArea);
 		
-		vPanel.add(buttons);
+		
 		
 		
 		
