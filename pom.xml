@@ -117,7 +117,7 @@
 		<dependency>
   			<groupId>edu.arizona.biosemantics.micropie</groupId>
   			<artifactId>micropie</artifactId>
-  			<version>0.0.5-SNAPSHOT</version>
+  			<version>0.0.6-SNAPSHOT</version>
 		</dependency>		
 	</dependencies>
 	<build>

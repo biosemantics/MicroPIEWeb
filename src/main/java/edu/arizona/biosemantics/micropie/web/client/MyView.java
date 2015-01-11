@@ -193,7 +193,7 @@ public class MyView extends SimpleContainer {
 		
 		
 		// String lblName5String = "<b>Brief Description of MicroPIE:</b><br>";
-		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilizes domain expert's knowledge and unsupervised machine learning techniques to extract phenomic characters.<br>";
+		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilizes domain experts' knowledge and unsupervised machine learning techniques to extract phenomic characters.<br>";
 
 		lblName5String += "MicroPIE algorithms and software implementation are embedded into MicroPIEWeb so users can easily paste microbial taxonomic descriptions in the required format to MicroPIEWeb, click the \"extract characters\" button to run MicroPIE algorithms, and then receive MicroPIE extracted matrix (in CSV format) via email.<br>";
 
@@ -201,7 +201,7 @@ public class MyView extends SimpleContainer {
 
 		lblName5String += "We acknowledge the support of NSF.<br>";
 
-		lblName5String += "Currently, all parameters of setting are fixed for simple submissions. We are working on opening more setting parameters for users to customize the characters they want to extract.<br>";
+		// lblName5String += "Currently, all parameters of setting are fixed for simple submissions. We are working on opening more setting parameters for users to customize the characters they want to extract.<br>";
 
 		lblName5String += "To know more about MicroPIE, please go here to see our <a href=\"http://www.slideshare.net/elviscat/httpwwwresearchgatenetpublication261707283avatolmicrobialphenomicsanontologyandnaturallanguageprocessingtoolstofacilitatetraitevolutionstudiesforthearchaealdomainoflife\">presentation at Evolution 2014</a>.<br>";
 
