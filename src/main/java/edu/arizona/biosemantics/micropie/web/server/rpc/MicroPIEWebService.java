@@ -7,6 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.Security;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -20,6 +24,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.io.FileUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -30,14 +36,11 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.arizona.biosemantics.micropie.web.shared.model.SubmitToMicroPIE;
 import edu.arizona.biosemantics.micropie.web.shared.model.Something;
-
 import edu.arizona.biosemantics.micropie.web.shared.rpc.IMicroPIEWebService;
-
 import edu.arizona.biosemantics.micropie.web.shared.model.process.file.XmlModelFileCreator;
 import edu.arizona.biosemantics.micropie.web.shared.model.file.XmlModelFile;
 import edu.arizona.biosemantics.micropie.web.server.Configuration;
@@ -71,7 +74,10 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 		return "Hey!";
 	}
 
-
+	private static String readFile(String path, Charset encoding)  throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(path));
+		return new String(encoded, encoding);
+	}
 
 	@Override
 	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText) {
@@ -255,6 +261,24 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 					
 					
 					
+					// http://stackoverflow.com/questions/2885173/java-how-to-create-and-write-to-a-file
+					// PrintWriter writer;
+					// writer = new PrintWriter(new BufferedWriter(new FileWriter(fullUserFolder + 
+					// 		File.separator + "taxonomic-description.txt", "UTF-8")))));
+					// writer.println(batchText);
+					// writer.close();
+					
+					try (PrintWriter taxonomicDescOut = new PrintWriter(
+							new BufferedWriter(new FileWriter(fullUserFolder + 
+									File.separator + "taxonomic-description.txt", true)))) {
+						taxonomicDescOut.println(batchText);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					
 					// final StringBuilder overallError = new StringBuilder();
 					List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
 					
@@ -346,88 +370,255 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 		        
 							
 				
+				boolean canBeCached = false;
 				
-				// Step 4: run MicroPIE
+				//  http://stackoverflow.com/questions/4917326/how-to-iterate-over-the-files-of-a-certain-directory-in-java
+				// http://stackoverflow.com/questions/3154488/best-way-to-iterate-through-a-directory-in-java
+				String cacheOutputFolderName = "";
 				
-				// String customizedFolderName
-				
-				
-				
-				// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
-				// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "456");
-		        final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder, "-o", fullUserFolder + "-output");
-				
-				
-				final ListenableFuture<Void> futureResult = executorService.submit(microPIE);
-				
-				final String fullUserFolder2 = fullUserFolder;
-				final String emailAddr2 = emailAddr;
-				
-				
-				futureResult.addListener(new Runnable() {
-				     	public void run() {	
-				     		try {
-					     		if(microPIE.isExecutedSuccessfully()) {
-					     			if(!futureResult.isCancelled()) {
-										
-										System.out.println("Prepare to send email notification");
-										// send an email to the user who owns the task.
-										// sendFinishedGeneratingMatrixEmail(task);
+				File rootDir = new File(Configuration.rootDir);
+				File[] rootDirListing = rootDir.listFiles();
+				if ( rootDirListing != null ) {
+					for (File childOfRootDir : rootDirListing) { 
+						// Do something with child
+						if ( childOfRootDir.isDirectory() && !childOfRootDir.getAbsolutePath().equals(fullUserFolder) ) {
+							File[] childOfRootDirListing = childOfRootDir.listFiles();
+							if ( childOfRootDirListing != null) {
+								for (File childOfChildOfRootDir : childOfRootDirListing) {
+									if ( childOfChildOfRootDir.getName().equals("taxonomic-description.txt") ) { // http://stackoverflow.com/questions/3154488/best-way-to-iterate-through-a-directory-in-java
 										
 										
 										
-										// Hi MicroPIEWeb user,
+										
+										// http://www.avajava.com/tutorials/lessons/whats-a-quick-way-to-tell-if-the-contents-of-two-files-are-identical-or-not.html
+										// File userTaxonomicDescription = new File(fullUserFolder + 
+										//		File.separator + "taxonomic-description.txt");
+										
+										System.out.println("userTaxonomicDescription::" + fullUserFolder + File.separator + "taxonomic-description.txt");
+										System.out.println("childOfChildOfRootDir.getName()::" + childOfChildOfRootDir.getAbsolutePath());
+		
+										
+										try {
+											String content = readFile(fullUserFolder + 
+													File.separator + "taxonomic-description.txt", StandardCharsets.UTF_8);
+											String content2 = readFile(childOfChildOfRootDir.getAbsolutePath(), StandardCharsets.UTF_8);
+											
+											
+											/*
+											String currentAbsolutePath = childOfChildOfRootDir.getAbsolutePath();
+											String[] currentAbsolutePathArray = currentAbsolutePath.split("/");
+											String currentParentAbsolutePath = "";
+											for (int i = 0; i < currentAbsolutePathArray.length; i++) {
+												currentParentAbsolutePath += currentAbsolutePathArray[i] + "/";
+											}
+											currentParentAbsolutePath = currentParentAbsolutePath.substring(0, currentParentAbsolutePath.length()-1);
+											File outputDir = new File(currentParentAbsolutePath + "-output");
+											System.out.println("currentParentAbsolutePath::" + currentParentAbsolutePath);
+											
+											
+											String currentAbsolutePath = childOfChildOfRootDir.getAbsolutePath();
+											File outputDir = new File(currentAbsolutePath + "-output");
+											System.out.println("outputDir.getAbsolutePath()::" + outputDir.getAbsolutePath());
 
-										// You started a job on MicroPIEWeb. Now MicroPIE has generated the matrix for you. Please check the attached csv file, thanks.
+											
+											if (outputDir.exists() && content.equals(content2)) {
+												canBeCached = true;
+												cacheOutputFolderName = currentAbsolutePath + "-output";
+												// cacheOutputFolderName = currentParentAbsolutePath + "-output";
+											}
+											*/
+											
+											if ( content.equals(content2) ) {
+												canBeCached = true;		
+											}
+											
+											if ( canBeCached == true ) {
+												cacheOutputFolderName = childOfRootDir.getName() + "-output";
+											}
+										
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										
+										
+										/*
+										try {
+											canBeCached = FileUtils.contentEquals(userTaxonomicDescription, childOfChildOfRootDir);
+											
+											
+											
+											// if ( canBeCached == true ) {
+											//	System.out.println("cacheOutputFolderName::" + cacheOutputFolderName);
+												// cacheOutputFolderName = childOfRootDir.getName() + "-output";
+												
+												
+											// }
+											
+											
+											
+											
+											
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										*/
+										
+										//if ( canBeCached == true ) {
+											// System.out.println("cacheOutputFolderName::" + childOfRootDir.getName() + "-output");
+										//}
+										
+										// String textOfTargetTaxonomicDescription = Files.readAllLines(Paths.get(fileName)
+										// http://kodejava.org/how-do-i-read-all-lines-from-a-file/
+									}
+								}
+							}
+						}
+					}
+				} else {
+					// Handle the case where dir is not really a directory.
+					// Checking dir.isDirectory() above would not be sufficient
+					// to avoid race conditions with another process that deletes
+					// directories.
+				}
+				
+				if ( canBeCached == true ) {
+					
+					System.out.println("canBeCached is true!");
+					System.out.println("cacheOutputFolderName::" + cacheOutputFolderName);
+					
+					String cacheOutputFolderNameAbsolutePath = "/var/lib/etcsite/micropieweb/" + cacheOutputFolderName;
+					System.out.println("cacheOutputFolderNameAbsolutePath::" + cacheOutputFolderNameAbsolutePath);
+					
+					System.out.println("fullUserFolder::" + fullUserFolder);
+					try {
+						FileUtils.deleteDirectory(new File(fullUserFolder));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					
+					// cacheOutputFolderName
+					String email = emailAddr;
+					String subject = "The Cached MicroPIE matrix of your taxonomic description(s)";
+					String body = "Hi MicroPIEWeb user,<br><br>You started a job on MicroPIEWeb. Now MicroPIE has generated the cached matrix for you. Please check the attached csv file, thanks.<br><br>Administrator of MicroPIEWeb";
+					
+					
+					String sendTo = email;
+					String emailSubjectTxt = subject;
+					String emailMsgTxt = body;
+					String emailFromAddress = "admin@micropieweb.org";
+					
+					Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
-										// Admin of MicroPIEWeb
-										
-										
-										String email = emailAddr2;
-										String subject = "The MicroPIE matrix of your taxonomic description(s)";
-										String body = "Hi MicroPIEWeb user,<br><br>You started a job on MicroPIEWeb. Now MicroPIE has generated the matrix for you. Please check the attached csv file, thanks.<br><br>Administrator of MicroPIEWeb";
-										
-										
-										String sendTo = email;
-										String emailSubjectTxt = subject;
-										String emailMsgTxt = body;
-										String emailFromAddress = "admin@micropieweb.org";
-										
-										Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+			        String[] filenames = { cacheOutputFolderNameAbsolutePath + File.separator + "matrix.csv", cacheOutputFolderNameAbsolutePath + File.separator + "matrix.xls" };
 
-								        String[] filenames = { fullUserFolder2 + "-output"+ File.separator + "matrix.csv" };
+			        try {
+						new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
+						        emailFromAddress, filenames);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			        System.out.println("Sucessfully Sent mail to the User");
+					
+					
+					
+				} else {
+					
+					System.out.println("canBeCached is false!");
+					
+					
+					
+					
+					// Step 4: run MicroPIE
+					
+					// String customizedFolderName
+					
+					
+					
+					// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
+					// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "456");
+			        final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder, "-o", fullUserFolder + "-output");
+					
+					
+					final ListenableFuture<Void> futureResult = executorService.submit(microPIE);
+					
+					final String fullUserFolder2 = fullUserFolder;
+					final String emailAddr2 = emailAddr;
+					
+					
+					futureResult.addListener(new Runnable() {
+					     	public void run() {	
+					     		try {
+						     		if(microPIE.isExecutedSuccessfully()) {
+						     			if(!futureResult.isCancelled()) {
+											
+											System.out.println("Prepare to send email notification");
+											// send an email to the user who owns the task.
+											// sendFinishedGeneratingMatrixEmail(task);
+											
+											
+											
+											// Hi MicroPIEWeb user,
 
-								        new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
-								                emailFromAddress, filenames);
-								        System.out.println("Sucessfully Sent mail to All Users");
-										
-										
-					     			}
-					     		} 
-				     		} catch(Throwable t) {
-				     			// fail 
-				     		}
-				     	}
-				     }, executorService);		
+											// You started a job on MicroPIEWeb. Now MicroPIE has generated the matrix for you. Please check the attached csv file, thanks.
+
+											// Admin of MicroPIEWeb
+											
+											
+											String email = emailAddr2;
+											String subject = "The MicroPIE matrix of your taxonomic description(s)";
+											String body = "Hi MicroPIEWeb user,<br><br>You started a job on MicroPIEWeb. Now MicroPIE has generated the matrix for you. Please check the attached csv file, thanks.<br><br>Administrator of MicroPIEWeb";
+											
+											
+											String sendTo = email;
+											String emailSubjectTxt = subject;
+											String emailMsgTxt = body;
+											String emailFromAddress = "admin@micropieweb.org";
+											
+											Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+
+									        String[] filenames = { fullUserFolder2 + "-output"+ File.separator + "matrix.csv", fullUserFolder2 + "-output"+ File.separator + "matrix.xls" };
+
+									        new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
+									                emailFromAddress, filenames);
+									        System.out.println("Sucessfully Sent mail to All Users");
+											
+											
+						     			}
+						     		} 
+					     		} catch(Throwable t) {
+					     			// fail 
+					     		}
+					     	}
+					     }, executorService);		
+					
+					
+					
+					
+					
+					// Step 2: Check the email format
+					
+					//  if this email can be sent to, go to Step 3
+					
+					// Step 3:  
+					
+					// Step 4: Create the target working folder
+					
+					// Step 5: Call micropie.jar
+					
+					// Step 6: Check the progress
+					
+					// Step 7: 			
+								
+				}
 				
 				
-				
-				
-				
-				// Step 2: Check the email format
-				
-				//  if this email can be sent to, go to Step 3
-				
-				// Step 3:  
-				
-				// Step 4: Create the target working folder
-				
-				// Step 5: Call micropie.jar
-				
-				// Step 6: Check the progress
-				
-				// Step 7: 			
-				
+
 				
 			}				
 		}			
@@ -445,4 +636,3 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 
 	
 }
-
