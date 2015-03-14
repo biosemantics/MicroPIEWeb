@@ -113,8 +113,10 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 
 		// this.setClassPath(System.getProperty("java.class.path"));
 		// This one will cause an error!
+        // If you test under eclipse, please use this.
 		
 		this.setClassPath(Configuration.classpath);
+        // If you deploy to wb server (tomcat), please use this
 
 		this.setMainClass(MainWrapper.class);
 
