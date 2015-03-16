@@ -214,8 +214,8 @@ public class MyView extends SimpleContainer {
 	    disclosurePanel.setContent(lblName5StringHtml);
 
 		
-		
-		/* Popup Dialog */
+		/*
+		// Popup Dialog
 		if (buttons == null) {
 			// popupDialog
 			final Dialog popupDialog = new Dialog();
@@ -248,8 +248,8 @@ public class MyView extends SimpleContainer {
 
 		}
 
-		/* Popup Dialog */
-
+		// Popup Dialog
+	    */
 		
 		Button buttonMessage = new Button("extract characters");
 
@@ -309,7 +309,7 @@ public class MyView extends SimpleContainer {
 		vPanel.add(disclosurePanel);
 		
 		vPanel.add(lblName);
-		vPanel.add(buttons);
+		// vPanel.add(buttons);
 		vPanel.add(txtArea);
 		
 		

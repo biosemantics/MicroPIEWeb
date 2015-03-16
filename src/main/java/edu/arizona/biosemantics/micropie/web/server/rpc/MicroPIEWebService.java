@@ -110,13 +110,16 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 			} else {
 				
 				for (int i = 0; i < treatments.size(); i++ ) {
-					System.out.println("treatments.get(i)::" + treatments.get(i));
+					// System.out.println("treatments.get(i)::" + treatments.get(i));
+										System.out.println("treatments.get(" + i + ")::" + treatments.get(i));
+
 					String operator = "MicroPIEWebAgent";
 					ServerXmlModelFileCreator serverXmlModelFileCreator = new ServerXmlModelFileCreator();
 					XmlModelFile xmlModelFile = serverXmlModelFileCreator.createXmlModelFile(treatments.get(i), operator);
 					
 					
-					System.out.println("xmlModelFile.getXML()::" + xmlModelFile.getXML());
+					// System.out.println("xmlModelFile.getXML()::" + xmlModelFile.getXML());
+					System.out.println("xmlModelFile.getXML()::\n" + xmlModelFile.getXML());
 					
 					SAXBuilder builder = new SAXBuilder();
 					// Document document = (Document) builder.build(xmlFile);
@@ -216,7 +219,8 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 					
 				}
 				
-
+				
+				
 				
 				String userFolderName = "";
 				String fullUserFolder = "";
@@ -636,3 +640,11 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 
 	
 }
+
+
+
+
+
+
+
+
