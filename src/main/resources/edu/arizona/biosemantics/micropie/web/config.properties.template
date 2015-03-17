@@ -5,4 +5,19 @@ targetNamespace=http://www.github.com/biosemantics
 taxonDescriptionSchemaFileWeb=http://raw.githubusercontent.com/biosemantics/schemas/0.0.1/semanticMarkupInput.xsd
 markedUpTaxonDescriptionSchemaFileWeb=http://raw.githubusercontent.com/biosemantics/schemas/0.0.1/semanticMarkupOutput.xsd
 
+#Email address (used to send email to users):
+email_smtp_server=smtp.gmail.com
+email_smtp_port=465
+email_address=microPIE.automail@gmail.com
+email_password=microPIE!automail!pass
 
+#rootDir
+rootDir=/var/lib/etcsite/micropieweb3
+
+
+#classpath
+#classpath=/var/lib/jetty/webapps/etcsite/WEB-INF/classes:/var/lib/jetty/webapps/etcsite/WEB-INF/lib/*
+classpath=/var/lib/tomcat5/apache-tomcat-5.5.28/webapps/micropieweb3/WEB-INF/classes:/var/lib/tomcat5/apache-tomcat-5.5.28/webapps/micropieweb3/WEB-INF/lib/*
+
+#maxMicroPIEWeb
+maxMicroPIEWeb=2
