@@ -11,9 +11,11 @@ email_smtp_port=465
 email_address=microPIE.automail@gmail.com
 email_password=microPIE!automail!pass
 
-#rootDir
+#rootDir used for storing user input descriptions
 rootDir=/var/lib/etcsite/micropieweb3
 
+#modelDir to store multiple models
+modelDir=/var/lib/etcsite/micropieweb3
 
 #classpath
 #classpath=/var/lib/jetty/webapps/etcsite/WEB-INF/classes:/var/lib/jetty/webapps/etcsite/WEB-INF/lib/*

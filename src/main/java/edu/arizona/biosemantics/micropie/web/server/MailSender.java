@@ -50,13 +50,13 @@ public class MailSender {
     // private static final String[] sendTo = { "ashwin.rayaprolu@idhasoft.com",
     //        "ashwin.rayaprolu@gmail.com" };
 
-    private static final String[] sendTo = { "elviscat@gmail.com" };
+    private static final String[] sendTo = { "maojin0@gmail.com" };
     
     public static void main(String args[]) throws Exception {
 
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
-        String[] filenames = { "elviscat_at_gmail_dot_com_2014_12_03_11_22_27_184-output/matrix.csv" };
+        String[] filenames = { "maojin0_at_gmail_dot_com_2014_12_03_11_22_27_184-output/matrix.csv" };
 
         new MailSender().sendSSLMessage(Arrays.asList(sendTo), emailSubjectTxt, emailMsgTxt,
                 emailFromAddress, filenames);
@@ -76,7 +76,7 @@ public class MailSender {
             throws Exception {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 
-        String[] filenames = { "elviscat_at_gmail_dot_com_2014_12_03_11_22_27_184-output/matrix.csv" };
+        String[] filenames = { "maojin0_at_gmail_dot_com_2014_12_03_11_22_27_184-output/matrix.csv" };
 
         new MailSender().sendSSLMessage(recipients, subject, messageContent,
                 from, filenames);
@@ -94,8 +94,8 @@ public class MailSender {
         for (int i = 0; i <= attachments.length - 1; i++) {
             String filename = attachments[i];
             
-            String[] filenameArray = attachments[i].split("/");
-            String filenameOnAttachemnt = attachments[i].split("/")[filenameArray.length-1];            
+            String[] filenameArray = attachments[i].split("[/\\\\]");
+            String filenameOnAttachemnt = filenameArray[filenameArray.length-1];            
             
             MimeBodyPart attachmentBodyPart = new MimeBodyPart();
 

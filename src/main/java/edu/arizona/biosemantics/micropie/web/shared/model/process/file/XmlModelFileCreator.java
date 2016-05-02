@@ -21,6 +21,14 @@ public class XmlModelFileCreator {
 		return text;
 	}
 	
+	
+	/**
+	 * generate the treatment
+	 * TODO:only one treatment?
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public List<String> getTreatmentTexts(String text) {
 		List<String> result = new LinkedList<String>();
 		
@@ -32,8 +40,7 @@ public class XmlModelFileCreator {
 			if(line.length()==0 && !insideContinuousValue) {
 				result.add(treatment.toString());
 				treatment = new StringBuilder();
-			}
-			else {
+			}else {
 				treatment.append(line + "\n");
 				int colonIndex = line.indexOf(":");
 				if(colonIndex == -1 || insideContinuousValue) {

@@ -43,13 +43,13 @@ public class Emailer {
 					try {
 						Transport.send(message);
 					} catch (MessagingException e) {
-						log(LogLevel.ERROR, "Couldn't send email", e);
+						//log(LogLevel.ERROR, "Couldn't send email", e);
 					}
 				}
 			};
 			sendThread.start();
 		} catch(MessagingException e) {
-			log(LogLevel.ERROR, "Couldn't sent email", e);
+			//log(LogLevel.ERROR, "Couldn't sent email", e);
 		}
 	}
 }

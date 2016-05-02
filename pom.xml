@@ -4,7 +4,7 @@
 	<groupId>edu.arizona.biosemantics.micropie</groupId>
 	<artifactId>micropieweb</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<properties>
 		<gwtVersion>2.6.1</gwtVersion>
 		<maven.compiler.source>1.7</maven.compiler.source>
@@ -60,6 +60,11 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -118,7 +123,121 @@
   			<groupId>edu.arizona.biosemantics.micropie</groupId>
   			<artifactId>micropie</artifactId>
   			<version>0.0.9-SNAPSHOT</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>4.5</version>
+		</dependency>
+		<dependency>
+			<groupId>nz.ac.waikato.cms.weka</groupId>
+			<artifactId>weka-stable</artifactId>
+			<version>3.6.10</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.5.1</version>
+			<classifier>models</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
+		</dependency>
+		<dependency>
+			<groupId>tw.edu.ntu.csie</groupId>
+			<artifactId>libsvm</artifactId>
+			<version>3.1</version>
+			<!-- <version>3.17</version> can somehow not be found on classpath when 
+				used -->
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>16.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.26</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.opennlp</groupId>
+			<artifactId>opennlp-distr</artifactId>
+			<type>pom</type>
+			<version>1.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.mit</groupId>
+			<artifactId>jwi</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.arizona.biosemantics.common</groupId>
+			<artifactId>log</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
@@ -143,14 +262,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
-				<executions>
+				<!-- <executions>
 					<execution>
 						<phase>compile</phase>
 						<goals>
 							<goal>exploded</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions> -->
 				<configuration>
 					<webappDirectory>${webappDirectory}</webappDirectory>
 					<attachClasses>true</attachClasses>
@@ -162,9 +281,9 @@
 				<version>1.7</version>
 				<configuration>
 					<proceedOnError>true</proceedOnError>
-					<complianceLevel>${java.version}</complianceLevel>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<complianceLevel>1.7</complianceLevel>
+					<source>1.7</source><!-- ${java.version} -->
+					<target>1.7</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 				<dependencies>
@@ -202,6 +321,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
+				<!--
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -209,7 +329,10 @@
 							<goal>jar</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions>  -->
+				 <configuration>
+			      <additionalparam>-Xdoclint:none</additionalparam>
+			    </configuration>
 			</plugin>
 		</plugins>
 

@@ -64,8 +64,8 @@ public class MyView extends SimpleContainer {
 	private String emailAddr = "";
 	private String batchText = "";
 
-	final TextArea txtArea = new TextArea();
-	final TextBox txtName = new TextBox();
+	final TextArea txtArea = new TextArea();//the text description area, input area
+	final TextBox emailBox = new TextBox();
 
 	private ButtonBar buttons;
 
@@ -86,7 +86,7 @@ public class MyView extends SimpleContainer {
 			Window.alert(submitToMicroPIE.getReturnMsg());
 			if (submitToMicroPIE.getReturnStatus().equals("OK")) {
 				txtArea.setText("");
-				txtName.setText("");
+				emailBox.setText("");
 			}
 
 			// HTML html = new HTML("<p>" + text +
@@ -113,6 +113,7 @@ public class MyView extends SimpleContainer {
 		
 		MyBinderWidget w = new MyBinderWidget();
 		
+		//async call used to submit the description and get results
 		final AsyncCallback<SubmitToMicroPIE> acb = new AsyncCallback<SubmitToMicroPIE>() {
 			@Override
 			public void onFailure(Throwable t) {
@@ -131,7 +132,7 @@ public class MyView extends SimpleContainer {
 				Window.alert(submitToMicroPIE.getReturnMsg());
 				if (submitToMicroPIE.getReturnStatus().equals("OK")) {
 					txtArea.setText("");
-					txtName.setText("");
+					emailBox.setText("");
 				}
 
 				// HTML html = new HTML("<p>" + text +
@@ -147,22 +148,10 @@ public class MyView extends SimpleContainer {
 		
 		/* create UI */
 		// final TextBox txtName = new TextBox();
-		txtName.setWidth("500px");
+		//brief introduction
+		emailBox.setWidth("300px");
 
-		String defaultTextAreaSteing = "author: O. I. Nedashkovskaya, S. Bum Kim, M. Vancanneyt, C. Snauwaert, A. M. Lysenko, M. Rohde, G. M. Frolova, N. V. Zhukova, V. V. Mikhailov, K. Sook Bae, H. Woo Oh, J. Swings\n";
-		defaultTextAreaSteing += "year: 2006\n";
-		defaultTextAreaSteing += "title: Formosa agariphila sp. nov., a budding bacterium of the family Flavobacteriaceae isolated from marine environments, and emended description of the genus Formosa\n";
-		defaultTextAreaSteing += "genus name: Formosa\n";
-		defaultTextAreaSteing += "species name: agariphila\n";
-		defaultTextAreaSteing += "morphology: The main characteristics are the same as those given for the genus. In addition, cells are 0·4–0·6 μm in width and 0·8–1·2 μm in length and can be connected by thread-like structures. Budding morphology may be observed. On marine agar, colonies are 2–4 mm in diameter, circular, flat or convex, opaque or translucent, shiny with entire edges, sunken into the agar and yellow-pigmented. Growth occurs at 4–33 °C. The optimal temperature for growth is 21–23 °C. Growth occurs in 1–8 % NaCl. Decomposes agar, gelatin and aesculin. Does not hydrolyse casein, DNA, Tween 80, cellulose (CM-cellulose and filter paper) or chitin. Forms acid from L-fucose, D-galactose, D-glucose, D-maltose, DL-xylose and mannitol, but not from L-arabinose, D-cellobiose, D-lactose, D-melibiose, L-rhamnose, L-raffinose, L-sorbose, D-sucrose, adonitol, glycerol, dulcitol, inositol or sorbitol. Utilizes L-arabinose, D-lactose, D-mannose and D-sucrose, but not inositol, sorbitol, malonate or citrate. Produces β-galactosidase. Nitrate is not reduced to nitrite. H2S, indole and acetoin (Voges–Proskauer reaction) production are negative. Some strains are susceptible to ampicillin, carbenicillin, lincomycin and oleandomycin. Resistant to benzylpenicillin, gentamicin, kanamycin, neomycin, polymyxin B, tetracycline and streptomycin. The predominant fatty acids are C15 : 0 (8·7–11·4 %), iso-C15 : 1 G (6·5–11·4 %), C15 : 1ω6c (6–11·8 %), iso-C15 : 0 (12·7–17·2 %), iso-C15 : 0 3-OH (7·7–10·5 %), iso-C17 : 0 3-OH (8·5–10·7 %) and summed feature 3 (15·8–12·1 %, comprising any combination of C16 : 1ω7c, C16 : 1ω7t and iso-C15 : 0 2-OH). The G+C content of the DNA is 35–36 mol% (Tm). isolated from the green alga Acrosiphonia sonderi, collected in Troitsa Bay, Gulf of Peter the Great, East Sea (Sea of Japan).";
-
-		// final TextArea txtArea = new TextArea();
-
-		txtArea.setWidth("700px");
-		txtArea.setVisibleLines(15);
-		txtArea.setText(defaultTextAreaSteing);
-
-		txtName.addKeyUpHandler(new KeyUpHandler() {
+		emailBox.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -171,7 +160,7 @@ public class MyView extends SimpleContainer {
 					// txtArea.getValue(),
 					// acb);
 					service.submitToMicroPIE(
-							txtName.getValue(),
+							emailBox.getValue(),
 							txtArea.getValue(),
 							(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
 
@@ -179,12 +168,30 @@ public class MyView extends SimpleContainer {
 			}
 		});
 
-		Label lblName = new Label("Paste Microbe Taxonomic Description Here (a sample description is already provided): ");
+		
+
+		//this is a demo description
+		String defaultTextAreaSteing = "author: O. I. Nedashkovskaya, S. Bum Kim, M. Vancanneyt, C. Snauwaert, A. M. Lysenko, M. Rohde, G. M. Frolova, N. V. Zhukova, V. V. Mikhailov, K. Sook Bae, H. Woo Oh, J. Swings\n";
+		defaultTextAreaSteing += "year: 2006\n";
+		defaultTextAreaSteing += "title: Formosa agariphila sp. nov., a budding bacterium of the family Flavobacteriaceae isolated from marine environments, and emended description of the genus Formosa\n";
+		defaultTextAreaSteing += "genus name: Formosa\n";
+		defaultTextAreaSteing += "species name: agariphila\n";
+		defaultTextAreaSteing += "morphology: The main characteristics are the same as those given for the genus. In addition, cells are 0·4–0·6 μm in width and 0·8–1·2 μm in length and can be connected by thread-like structures. Budding morphology may be observed. On marine agar, colonies are 2–4 mm in diameter, circular, flat or convex, opaque or translucent, shiny with entire edges, sunken into the agar and yellow-pigmented. Growth occurs at 4–33 °C. The optimal temperature for growth is 21–23 °C. Growth occurs in 1–8 % NaCl. Decomposes agar, gelatin and aesculin. Does not hydrolyse casein, DNA, Tween 80, cellulose (CM-cellulose and filter paper) or chitin. Forms acid from L-fucose, D-galactose, D-glucose, D-maltose, DL-xylose and mannitol, but not from L-arabinose, D-cellobiose, D-lactose, D-melibiose, L-rhamnose, L-raffinose, L-sorbose, D-sucrose, adonitol, glycerol, dulcitol, inositol or sorbitol. Utilizes L-arabinose, D-lactose, D-mannose and D-sucrose, but not inositol, sorbitol, malonate or citrate. Produces β-galactosidase. Nitrate is not reduced to nitrite. H2S, indole and acetoin (Voges–Proskauer reaction) production are negative. Some strains are susceptible to ampicillin, carbenicillin, lincomycin and oleandomycin. Resistant to benzylpenicillin, gentamicin, kanamycin, neomycin, polymyxin B, tetracycline and streptomycin. The predominant fatty acids are C15 : 0 (8·7–11·4 %), iso-C15 : 1 G (6·5–11·4 %), C15 : 1ω6c (6–11·8 %), iso-C15 : 0 (12·7–17·2 %), iso-C15 : 0 3-OH (7·7–10·5 %), iso-C17 : 0 3-OH (8·5–10·7 %) and summed feature 3 (15·8–12·1 %, comprising any combination of C16 : 1ω7c, C16 : 1ω7t and iso-C15 : 0 2-OH). The G+C content of the DNA is 35–36 mol% (Tm). isolated from the green alga Acrosiphonia sonderi, collected in Troitsa Bay, Gulf of Peter the Great, East Sea (Sea of Japan).";
+
+		// final TextArea txtArea = new TextArea();
+		txtArea.setWidth("900px");
+		txtArea.setVisibleLines(19);
+		txtArea.setText(defaultTextAreaSteing);
+		
+		
+		
+		HTML lblName = new HTML("<b>Input Microbe Taxonomic Description:</b> The format should consist of the five fields: author, title, genus name, species name, and morphology, as shown in the sample description. Right now MicroPIEWeb accepts at most 50 taxonomic descriptions per submission. An empity line is needed to separate two descriptions."
+				+ "When submitting the descriptions, you have agreed that these descriptions can be used for MicroPIE development.");
 
 		Label lblName2 = new Label(
-				"* Right now MicroPIEWeb accepts at most 50 taxonomic descriptions per submission.");
+				"* Right now MicroPIEWeb accepts at most 50 taxonomic descriptions per submission. An empity line is needed to separate two descriptions");
 
-		Label lblName3 = new Label("Please enter your email address: ");
+		HTML labelEmail = new HTML("<b> Email address: </b> required for sending MicroPIE extracted matrix (in csv format) to you. ");
 
 		Label lblName4 = new Label(
 				"* Email address is required for sending MicroPIE extracted matrix (in csv format) to you.");
@@ -193,26 +200,17 @@ public class MyView extends SimpleContainer {
 		
 		
 		// String lblName5String = "<b>Brief Description of MicroPIE:</b><br>";
-		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilizes domain experts' knowledge and unsupervised machine learning techniques to extract phenomic characters.<br>";
+		String lblName5String = "MicroPIE (Microbial Phenomics Information Extractor) is a text mining tool that utilizes domain experts' knowledge, NLP and machine learning techniques to extract phenomic characters.";
 
-		lblName5String += "MicroPIE algorithms and software implementation are embedded into MicroPIEWeb so users can easily paste microbial taxonomic descriptions in the required format to MicroPIEWeb, click the \"extract characters\" button to run MicroPIE algorithms, and then receive MicroPIE extracted matrix (in CSV format) via email.<br>";
+		lblName5String += "MicroPIE is part of an NSF funded research project entitled <a href=\"http://avatol.org/ngp/\">AVAToL: Next Generation Phenomics for the Tree of Life</a> (NSF DEB #1208256).&nbsp;";
 
-		lblName5String += "MicroPIE is part of an NSF funded research project titled <a href=\"http://avatol.org/ngp/\">AVAToL: Next Generation Phenomics for the Tree of Life</a> (NSF DEB #1208256).<br>";
-
-		lblName5String += "We acknowledge the support of NSF.<br>";
-
-		// lblName5String += "Currently, all parameters of setting are fixed for simple submissions. We are working on opening more setting parameters for users to customize the characters they want to extract.<br>";
-
-		lblName5String += "To know more about MicroPIE, please go here to see our <a href=\"http://www.slideshare.net/elviscat/httpwwwresearchgatenetpublication261707283avatolmicrobialphenomicsanontologyandnaturallanguageprocessingtoolstofacilitatetraitevolutionstudiesforthearchaealdomainoflife\">presentation at Evolution 2014</a>.<br>";
-
-		lblName5String += "If you have any questions, suggestion, and comments, please contact principal investigator Dr. Hong Cui (hong1.cui at gmail.com ) and principal developer Elvis Hsin-Hui Wu (elviscat at gmail.com).";
+		lblName5String += "If you have any questions, suggestion, and comments, please contact principal investigator Dr. Hong Cui (hong1.cui at gmail.com ) and principal developer Jin Mao (maojin0 at gmail.com).";
 
 		HTML lblName5StringHtml = new HTML(lblName5String);
 
 		
 	    DisclosurePanel disclosurePanel = new DisclosurePanel("Brief Description of MicroPIE");
 	    disclosurePanel.setContent(lblName5StringHtml);
-
 		
 		/*
 		// Popup Dialog
@@ -251,8 +249,8 @@ public class MyView extends SimpleContainer {
 		// Popup Dialog
 	    */
 		
-		Button buttonMessage = new Button("extract characters");
-
+		Button buttonMessage = new Button("Extract Characters");
+		// click, triger the WebService 
 		buttonMessage.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -261,7 +259,7 @@ public class MyView extends SimpleContainer {
 				// txtArea.getValue(),
 				// acb);
 				service.submitToMicroPIE(
-						txtName.getValue(),
+						emailBox.getValue(),
 						txtArea.getValue(),
 						(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
 
@@ -271,35 +269,35 @@ public class MyView extends SimpleContainer {
 		// Ignore it
 		HorizontalPanel hPanel = new HorizontalPanel();
 
-		hPanel.add(txtName);
+		hPanel.add(emailBox);
 		hPanel.add(txtArea);
 		// hPanel.setCellWidth(lblName, "130");
 
 		HorizontalPanel hPanel2 = new HorizontalPanel();
 
-		hPanel2.add(txtName);
-		hPanel2.add(txtName);
+		hPanel2.add(emailBox);
+		//hPanel2.add(txtName);
 		// hPanel.setCellWidth(lblName, "130");
 
 		// Ignore it
 
 		
 		
-		ScrollPanel sPanel = new ScrollPanel();
-
 		FramedPanel fPanel = new FramedPanel();
 		
 		// fPanel.setCollapsible(true);
-		
-		fPanel.setHeadingText("<h2>MicroPIEWeb, a web interface for submitting microbial taxonomic descriptions to MicroPIE</h2>");
-
+		fPanel.setHeadingText("<h2>MicroPIEWeb: The web application of MicroPIE (Microbial Phenomics Information Extractor)</h2>");
+		//fPanel.setHeadingText("<h2>MicroPIEWeb, a web interface for submitting microbial taxonomic descriptions to MicroPIE</h2>");
+		//fPanel.setBodyStyle("align:center");
 		// fPanel.setHeadingHtml(new
 		// HTML("<h1>MicroPIEWeb: The web application of MicroPIE (Microbial Phenomics Information Extractor)</h1>"));
 
-		fPanel.setWidth("900px");
+		fPanel.setWidth("1002x");
+		//fPanel.setWidth("100%");
 		fPanel.setBodyStyle("background: none; padding: 15px");
 
 		
+		//the main part
 		VerticalPanel vPanel = new VerticalPanel();
 		
 
@@ -312,26 +310,19 @@ public class MyView extends SimpleContainer {
 		// vPanel.add(buttons);
 		vPanel.add(txtArea);
 		
-		
-		
-		
-		
-		vPanel.add(lblName2);
-		vPanel.add(lblName3);
-		vPanel.add(txtName);
-		vPanel.add(lblName4);
-
+		//vPanel.add(lblName2);
+		vPanel.add(labelEmail);
+		vPanel.add(emailBox);
+		//vPanel.add(lblName4);
 		
 		
 		vPanel.add(buttonMessage);
 		
-		
-		
 		vPanel.setCellHorizontalAlignment(buttonMessage,
 				HasHorizontalAlignment.ALIGN_RIGHT);
 		
-		
 		// 1.
+		ScrollPanel sPanel = new ScrollPanel();
 		sPanel.add(vPanel);
 		fPanel.add(sPanel);
 		this.setWidget(fPanel);
@@ -415,6 +406,17 @@ public class MyView extends SimpleContainer {
 		 * 
 		 * // HTML html = new HTML("<p>" + text + "</p>"); //
 		 * fRootPanel.get("micropieweb").add(html); } });
+		 * 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77118602-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 		 */
 
 	}

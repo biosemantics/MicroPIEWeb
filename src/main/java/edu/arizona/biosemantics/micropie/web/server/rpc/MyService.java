@@ -212,12 +212,13 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 
 				// Step 2: if ( isValidBatchText == true ) { // create the target folder
 				if ( isValidBatchText == true ) {
-					String workingDir = System.getProperty("user.dir");
-					System.out.println("Current working directory : " + workingDir);
+					//system working directory
+					//String workingDir = System.getProperty("user.dir");
+					//System.out.println("Current working directory : " + workingDir);
 					
 					
-					String workingDir2 = getServletContext().getRealPath("/");
-					System.out.println("workingDir2 : " + workingDir2);
+					//String workingDir2 = getServletContext().getRealPath("/");
+					//System.out.println("workingDir2 : " + workingDir2);
 
 					
 					// Create customized folder
@@ -247,8 +248,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					new File(fullUserFolder + "-output").mkdirs();
 					
 					System.out.println("fullUserFolder::" + fullUserFolder);
-					
-					
+					System.out.println("create::" + new File(fullUserFolder).exists());
 					
 					// final StringBuilder overallError = new StringBuilder();
 					List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
@@ -297,7 +297,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				// Step 3: Copy micropieInput folder
 				// System.out.println("Hello Elvis!");
 				// System.out.println("Copy micropieInput folder in ExtraJvmMicroPIE");
-				
+				/*
 				String source = Configuration.rootDir + File.separator + "micropieInput_zip";
 				// String source = Configuration.rootDir + File.separator + "micropieInput";
 				// String source = "micropieInput";
@@ -327,8 +327,8 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 		            // be created. This copy process also preserve the
 		            // date information of the file.
 		            //
-		        	String workingDir = System.getProperty("user.dir");
-					System.out.println("Current working directory : " + workingDir);
+		        	//String workingDir = System.getProperty("user.dir");
+					//System.out.println("Current working directory : " + workingDir);
 		        	
 		            FileUtils.copyDirectory(srcDir, destDir);
 		        } catch (IOException e) {
@@ -338,7 +338,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 		        UnZip unZip = new UnZip();
 		    	unZip.unZipIt(fullUserFolder + File.separator + "usp_base.zip", fullUserFolder + File.separator + "usp_base");
 		        
-							
+				*/
 				
 				
 				// Step 4: run MicroPIE
@@ -421,7 +421,6 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				// Step 6: Check the progress
 				
 				// Step 7: 			
-				
 				
 			}				
 		}			

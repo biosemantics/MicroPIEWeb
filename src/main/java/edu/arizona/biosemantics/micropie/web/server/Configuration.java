@@ -30,8 +30,10 @@ public class Configuration {
 	public static String emailPassword;
 	
 	public static String rootDir;
+	public static String modelDir;
 	
 	public static String classpath;
+	public static String jdkPath;
 	
 	public static String maxMicroPIEWeb;
 	
@@ -62,8 +64,10 @@ public class Configuration {
 			emailPassword = properties.getProperty("email_password");
 			
 			rootDir = properties.getProperty("rootDir");
+			modelDir = properties.getProperty("modelDir");
 			
 			classpath = properties.getProperty("classpath");
+			jdkPath =  properties.getProperty("jdkPath");
 			
 			
 			

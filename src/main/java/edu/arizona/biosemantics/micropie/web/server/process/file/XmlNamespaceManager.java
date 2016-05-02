@@ -50,7 +50,7 @@ public class XmlNamespaceManager {
 		try {
 			doc = sax.build(file);
 		} catch (JDOMException | IOException e) {
-			log(LogLevel.ERROR, "Couldn't build xml document", e);
+			//log.ERROR, "Couldn't build xml document", e);
 		}
 		if(doc != null)
 			return getSchema(doc);
@@ -71,7 +71,7 @@ public class XmlNamespaceManager {
 			Document doc = sax.build(reader);
 			return getSchema(doc);
 		} catch (JDOMException | IOException e) {
-			log(LogLevel.ERROR, "Couldn't build xml document", e);
+			//log(LogLevel.ERROR, "Couldn't build xml document", e);
 		}
 		return null;
 	}
@@ -81,7 +81,7 @@ public class XmlNamespaceManager {
 		try {
 			doc = sax.build(file);
 		} catch (JDOMException | IOException e) {
-			log(LogLevel.ERROR, "Couldn't build xml document", e);
+			//log(LogLevel.ERROR, "Couldn't build xml document", e);
 		}
 		if(doc != null) { 
 			setXmlSchema(doc, fileTypeEnum);
@@ -89,10 +89,10 @@ public class XmlNamespaceManager {
 				try {
 					xmlOutputter.output(doc, fileOutputStream);
 				} catch (IOException e) {
-					log(LogLevel.ERROR, "Couldn't output xml document to file", e);
+					//log(LogLevel.ERROR, "Couldn't output xml document to file", e);
 				}
 			} catch (IOException e) {
-				log(LogLevel.ERROR, "Couldn't create or close outputstream", e);
+				//log(LogLevel.ERROR, "Couldn't create or close outputstream", e);
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public class XmlNamespaceManager {
 			try {
 				doc = sax.build(reader);
 			} catch (JDOMException | IOException e) {
-				log(LogLevel.ERROR, "Couldn't build xml document", e);
+				//log(LogLevel.ERROR, "Couldn't build xml document", e);
 			}
 			if(doc != null) {
 				setXmlSchema(doc, fileTypeEnum);
@@ -121,13 +121,13 @@ public class XmlNamespaceManager {
 					try {
 						xmlOutputter.output(doc, stringWriter);
 					} catch (IOException e) {
-						log(LogLevel.ERROR, "Couldn't output xml document", e);
+						//log(LogLevel.ERROR, "Couldn't output xml document", e);
 					}
 					stringWriter.flush();
 					String result = stringWriter.toString();
 					return result;
 				} catch (IOException e) {
-					log(LogLevel.ERROR, "Couldn't open or close writer", e);
+					//log(LogLevel.ERROR, "Couldn't open or close writer", e);
 				}
 			}
 		}
@@ -139,7 +139,7 @@ public class XmlNamespaceManager {
 		try {
 			doc = sax.build(file);
 		} catch (JDOMException | IOException e) {
-			log(LogLevel.ERROR, "Couldn't build xml document", e);
+			//log(LogLevel.ERROR, "Couldn't build xml document", e);
 		}
 		if(doc != null) {
 			Element rootElement = doc.getRootElement();
@@ -151,10 +151,10 @@ public class XmlNamespaceManager {
 				try {
 					xmlOutputter.output(doc, fileOutputStream);
 				} catch (IOException e) {
-					log(LogLevel.ERROR, "Couldn't output xml document", e);
+					//log(LogLevel.ERROR, "Couldn't output xml document", e);
 				}
 			} catch (IOException e) {
-				log(LogLevel.ERROR, "Couldn't open or close output stream", e);
+				//log(LogLevel.ERROR, "Couldn't open or close output stream", e);
 			}
 		}
 	}

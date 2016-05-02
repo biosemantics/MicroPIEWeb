@@ -1,5 +1,6 @@
 package edu.arizona.biosemantics.micropie.web.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.LinkedList;
@@ -52,6 +53,7 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 
 	@Override
 	public T call() throws Exception {
+		/*
 		String command = "java -cp " + classPath + " " + mainClass.getName();
 		for(String arg : args)
 			command += " " + arg;
@@ -59,34 +61,23 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 			command += " -Xmx " + xmx;
 		if(xms != null)
 			command += " -Xms " + xms;
-		
-		// log(LogLevel.INFO, "Hello Elvis0!!");
-		// log(LogLevel.INFO, "classPath: " + classPath);
-		// log(LogLevel.INFO, "mainClass.getName(): " + mainClass.getName());
-		// log(LogLevel.INFO, "args: " + args.toString());
-		// log(LogLevel.INFO, "Run in an extra JVM: " + command);
-		// log(LogLevel.INFO, "Hello Elvis1!!");
-		// // String javaExecutable0 = JavaEnvUtils.getJreExecutable("java");
-		// // log(LogLevel.TRACE, "javaExecutable::" + javaExecutable0);
-		// log(LogLevel.INFO, "Hello Elvis2!!");
-		
+		*/
 		
 		exitStatus = -1;
 		if(classPath != null && mainClass != null && args != null) {
 			// String javaExecutable = JavaEnvUtils.getJreExecutable("java");
 			
-			// log(LogLevel.TRACE, "javaExecutable::" + javaExecutable);
-			
-			String javaExecutable = "java";
+			String javaExecutable = Configuration.jdkPath+File.separator+"java";
 			// This one needs to be fixed.
-			
 			List<String> commandParts = new LinkedList<String>();
 			commandParts.add(javaExecutable);
 			commandParts.add("-cp");
 			commandParts.add(classPath);
-			commandParts.add(mainClass.getName());		
+			//commandParts.add(mainClass.getName());		//edu.arizona.biosemantics.micropie.Main
+			commandParts.add("edu.arizona.biosemantics.micropie.Main");
 			for(String arg : args)
 				commandParts.add(arg);
+			System.out.println("commandParts="+commandParts);
 				
 			ProcessBuilder processBuilder = new ProcessBuilder(commandParts);
 			
@@ -94,22 +85,18 @@ public abstract class ExtraJvmCallable<T> implements Callable<T>, Task {
 			processBuilder.redirectError(Redirect.INHERIT);
 			processBuilder.redirectOutput(Redirect.INHERIT);
 			
-	
-			
 			try {
+				System.out.println("starting the process");
 				process = processBuilder.start();
 				exitStatus = process.waitFor();
-				log(LogLevel.TRACE, "exitStatus::" + exitStatus);
-				log(LogLevel.TRACE, "processBuilder.start()");
-				
+				System.out.println("exitStatus="+exitStatus);
 			} catch(IOException | InterruptedException e) {
-				log(LogLevel.ERROR, "Process couldn't execute successfully", e);
+				System.out.println("Process couldn't execute successfully");
+				//log(LogLevel.ERROR, "Process couldn't execute successfully", e);
 			}
 			
 			return createReturn();
 		}
-		// log(LogLevel.INFO, "Hello Elvis3!!");
-
 		return null;
 	}
 	
