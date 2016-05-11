@@ -1,5 +1,8 @@
 MicroPIEWeb
 ============
+Online Demo
+----------
+The MicroPIEWeb online demo can be found at: <a href="http://biosemantics.arizona.edu/micropieweb/">http://biosemantics.arizona.edu/micropieweb/</a>
 
 Contribution
 ----------
