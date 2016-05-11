@@ -2,7 +2,7 @@ MicroPIEWeb
 ============
 Online Demo
 ----------
-The MicroPIEWeb online demo can be found at: <a href="http://biosemantics.arizona.edu/micropieweb/">http://biosemantics.arizona.edu/micropieweb/</a>
+The MicroPIEWeb online demo can be found at: <a href="http://biosemantics.arizona.edu/micropieweb/" title="MicroPIE Web Project">http://biosemantics.arizona.edu/micropieweb/</a>
 
 Contribution
 ----------
