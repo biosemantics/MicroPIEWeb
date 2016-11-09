@@ -259,7 +259,8 @@ public class ServerXmlModelFileCreator extends edu.arizona.biosemantics.micropie
 		});
 		for(String nameType: nameTypes){
 			String rank = nameType.replaceFirst(" name$", "");
-			String nameString = data.get(nameType).trim();
+			String nameString = data.get(nameType);
+			nameString = nameString==null?"":nameString.trim();
 			String name = nameString;
 			String authority = null;
 			String ndate = null;
