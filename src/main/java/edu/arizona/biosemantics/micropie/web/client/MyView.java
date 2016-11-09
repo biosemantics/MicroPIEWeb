@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -65,6 +66,10 @@ public class MyView extends SimpleContainer {
 	private String batchText = "";
 
 	final TextArea txtArea = new TextArea();//the text description area, input area
+	final RadioButton outputSi = new RadioButton("matrixType", "Simple");
+	final RadioButton outputMC = new RadioButton("matrixType", "MatrixConverter");
+	final RadioButton isInferYes = new RadioButton("isInfer", "Yes");
+	final RadioButton isInferNo = new RadioButton("isInfer", "No");
 	final TextBox emailBox = new TextBox();
 
 	private ButtonBar buttons;
@@ -159,9 +164,18 @@ public class MyView extends SimpleContainer {
 					// service.submitToMicroPIE(txtName.getValue(),
 					// txtArea.getValue(),
 					// acb);
+					
+					String outputFormat = null;
+					if(outputMC.getValue()==true) outputFormat = "mc";
+					
+					String infValue = "false";
+					if(isInferYes.getValue()==true) infValue = "true";
+					
 					service.submitToMicroPIE(
 							emailBox.getValue(),
 							txtArea.getValue(),
+							outputFormat,
+							infValue,
 							(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
 
 				}
@@ -180,7 +194,7 @@ public class MyView extends SimpleContainer {
 
 		// final TextArea txtArea = new TextArea();
 		txtArea.setWidth("900px");
-		txtArea.setVisibleLines(19);
+		txtArea.setVisibleLines(15);
 		txtArea.setText(defaultTextAreaSteing);
 		
 		
@@ -258,14 +272,36 @@ public class MyView extends SimpleContainer {
 				// service.submitToMicroPIE(txtName.getValue(),
 				// txtArea.getValue(),
 				// acb);
+				
+				String outputFormat = null;
+				if(outputMC.getValue()==true) outputFormat = "mc";
+				
+				String infValue = "false";
+				if(isInferYes.getValue()==true) infValue = "true";
+				
 				service.submitToMicroPIE(
 						emailBox.getValue(),
 						txtArea.getValue(),
+						outputFormat,
+						infValue,
 						(AsyncCallback<SubmitToMicroPIE>) new submitToMicroPIECallBack());
 
 			}
 		});
 
+		//outoption panel
+		HorizontalPanel outOptionPanel = new HorizontalPanel();
+		outOptionPanel.add(new HTML("<B>Matrix Format</b>:"));
+		outOptionPanel.add(outputSi);
+		outputSi.setValue(true);
+		outOptionPanel.add(outputMC);
+		
+		//infer Value for pH, Temprature, NaCl panel
+		HorizontalPanel infValPanel = new HorizontalPanel();
+		infValPanel.add(new HTML("<b>Infer max/min values</b> for pH,Temprature, and NaCl for growth:"));
+		infValPanel.add(isInferYes);
+		infValPanel.add(isInferNo);
+		isInferNo.setValue(true);
 		// Ignore it
 		HorizontalPanel hPanel = new HorizontalPanel();
 
@@ -280,7 +316,6 @@ public class MyView extends SimpleContainer {
 		// hPanel.setCellWidth(lblName, "130");
 
 		// Ignore it
-
 		
 		
 		FramedPanel fPanel = new FramedPanel();
@@ -309,7 +344,8 @@ public class MyView extends SimpleContainer {
 		vPanel.add(lblName);
 		// vPanel.add(buttons);
 		vPanel.add(txtArea);
-		
+		vPanel.add(infValPanel);
+		vPanel.add(outOptionPanel);
 		//vPanel.add(lblName2);
 		vPanel.add(labelEmail);
 		vPanel.add(emailBox);

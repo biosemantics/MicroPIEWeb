@@ -14,7 +14,8 @@ public interface IMicroPIEWebService extends RemoteService{
 	
 	public String doSomething(Something something);
 	
-	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText);
+	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText,
+			String outputFormat, String infValue);
 	
 	
 	

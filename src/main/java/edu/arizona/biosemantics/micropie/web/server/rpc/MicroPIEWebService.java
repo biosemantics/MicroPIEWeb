@@ -80,7 +80,8 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 	}
 
 	@Override
-	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText) {
+	public SubmitToMicroPIE submitToMicroPIE(String emailAddr, String batchText, String outputFormat,
+			String infValue) {
 		SubmitToMicroPIE submitToMicroPIEObj = new SubmitToMicroPIE();
 //		submitToMicroPIEObj.setEmailAddr(emailAddr);
 //		submitToMicroPIEObj.setBatchText(batchText);
@@ -88,6 +89,8 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 //		submitToMicroPIEObj.setReturnStatus(returnStatus);
 		
 		System.out.println("your email address:"+emailAddr);
+		System.out.println("outputFormat:"+outputFormat);
+		System.out.println("infValue:"+infValue);
 		String returnMsg = "";
 		String returnStatus = "";
 		
@@ -122,8 +125,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 				}
 					
 				// Step 4: run MicroPIE
-				this.runingMicroPIE(fullUserFolder, emailAddr);
-								
+				this.runingMicroPIE(fullUserFolder, emailAddr, outputFormat,infValue);
 			}
 				
 		}			
@@ -135,8 +137,14 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 	
 	
 	
-	public void runingMicroPIE(String fullUserFolder, String emailAddr){
-		 	final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder +File.separator+ "input", "-o", fullUserFolder + "-output");
+	public void runingMicroPIE(String fullUserFolder, String emailAddr,String outputFormat,
+			String infValue){
+		/**
+		 * -f format; mc, MatrixConverter format
+		 * -vi  value infer; true or false
+		 */
+		 	final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder +File.separator+ "input", "-o", fullUserFolder + "-output"
+		 			, "-f", outputFormat, "-vi",infValue);
 			
 			final ListenableFuture<Void> futureResult = executorService.submit(microPIE);
 			
@@ -195,7 +203,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 		//read XML files
 		for (int i = 0; i < treatments.size(); i++ ) {
 			// System.out.println("treatments.get(i)::" + treatments.get(i));
-			System.out.println("treatments.get(" + i + ")::" + treatments.get(i));
+			//System.out.println("treatments.get(" + i + ")::" + treatments.get(i));
 
 			String operator = "MicroPIEWebAgent";
 			
@@ -205,7 +213,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 			
 			
 			// System.out.println("xmlModelFile.getXML()::" + xmlModelFile.getXML());
-			System.out.println("xmlModelFile.getXML()::\n" + xmlModelFile.getXML());
+			//System.out.println("xmlModelFile.getXML()::\n" + xmlModelFile.getXML());
 			
 			SAXBuilder builder = new SAXBuilder();
 			// Document document = (Document) builder.build(xmlFile);
@@ -266,7 +274,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 									
 									if (sourceChildrenElementName == "author") {
 										
-										System.out.println("author:" + sourceChildrenElementText);
+										//System.out.println("author:" + sourceChildrenElementText);
 										
 										if ( !sourceChildrenElementText.equals("")) {
 											hasAuthor = true;
@@ -321,7 +329,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 	public String createUserFolder(String emailAddr,String userFolderName, String fullUserFolder, 
 			String batchText, List<String> treatments, SubmitToMicroPIE submitToMicroPIEObj){
 		String workingDir = System.getProperty("user.dir");
-		System.out.println("Current working directory : " + workingDir);
+		//System.out.println("Current working directory : " + workingDir);
 		
 		
 		String workingDir2 = getServletContext().getRealPath("/");
@@ -354,7 +362,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 		new File(fullUserFolder + File.separator + "input").mkdirs();
 		new File(fullUserFolder + "-output").mkdirs();
 		
-		System.out.println("fullUserFolder::" + fullUserFolder);
+		//System.out.println("fullUserFolder::" + fullUserFolder);
 		
 		try (PrintWriter taxonomicDescOut = new PrintWriter(
 				new BufferedWriter(new FileWriter(fullUserFolder + 
@@ -371,7 +379,7 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 		List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
 		
 		for (int i = 0; i < treatments.size(); i++ ) {
-			System.out.println("treatments.get(i)::" + treatments.get(i));
+			//System.out.println("treatments.get(i)::" + treatments.get(i));
 			String operator = "MicroPIEWebAgent";
 			ServerXmlModelFileCreator serverXmlModelFileCreator = new ServerXmlModelFileCreator();
 			XmlModelFile xmlModelFile = serverXmlModelFileCreator.createXmlModelFile(treatments.get(i), operator);
@@ -390,14 +398,14 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 				
 				// System.out.println("Finish Creating XML Files.");
 				// returnMsg = "Finish Creating XML Files.";
-				System.out.println(submitMsg);
+				//System.out.println(submitMsg);
 				submitToMicroPIEObj.setReturnMsg(submitMsg);
 				submitToMicroPIEObj.setReturnStatus("OK");
 				
 				
 			} catch (IOException e) {
 				// exception handling left as an exercise for the reader
-				System.out.println("Fail to create XML files.");
+				//System.out.println("Fail to create XML files.");
 				submitToMicroPIEObj.setReturnMsg("Fail to create XML files. Your taxonomic description(s) is not valid. Please check it.");
 			}
 		}
@@ -407,6 +415,6 @@ public class MicroPIEWebService extends RemoteServiceServlet implements IMicroPI
 	//replace micropie jar
 	public static void main(String[] args){
 		MicroPIEWebService service = new MicroPIEWebService();
-		service.runingMicroPIE("F:\\MicroPIE\\micropieweb\\maojin0_at_gmail_dot_com_2016_04_01_15_41_05_437", "maojin0@gmail.com");
+	    //service.runingMicroPIE("F:\\MicroPIE\\micropieweb\\maojin0_at_gmail_dot_com_2016_04_01_15_41_05_437", "maojin0@gmail.com");
 	}
 }

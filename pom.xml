@@ -122,7 +122,7 @@
 		<dependency>
   			<groupId>edu.arizona.biosemantics.micropie</groupId>
   			<artifactId>micropie</artifactId>
-  			<version>0.0.9-SNAPSHOT</version>
+  			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jgrapht</groupId>
@@ -237,6 +237,12 @@
 			<groupId>edu.arizona.biosemantics.common</groupId>
 			<artifactId>log</artifactId>
 			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
+		<dependency>
+		    <groupId>jaxen</groupId>
+		    <artifactId>jaxen</artifactId>
+		    <version>1.1.6</version>
 		</dependency>
 	</dependencies>
 	<build>

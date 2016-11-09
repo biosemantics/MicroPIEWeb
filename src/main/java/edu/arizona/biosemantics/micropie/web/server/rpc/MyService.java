@@ -99,13 +99,13 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 			} else {
 				
 				for (int i = 0; i < treatments.size(); i++ ) {
-					System.out.println("treatments.get(i)::" + treatments.get(i));
+					//System.out.println("treatments.get(i)::" + treatments.get(i));
 					String operator = "MicroPIEWebAgent";
 					ServerXmlModelFileCreator serverXmlModelFileCreator = new ServerXmlModelFileCreator();
 					XmlModelFile xmlModelFile = serverXmlModelFileCreator.createXmlModelFile(treatments.get(i), operator);
 					
 					
-					System.out.println("xmlModelFile.getXML()::" + xmlModelFile.getXML());
+					//System.out.println("xmlModelFile.getXML()::" + xmlModelFile.getXML());
 					
 					SAXBuilder builder = new SAXBuilder();
 					// Document document = (Document) builder.build(xmlFile);
@@ -121,9 +121,9 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 						
 						
 						String rootElement = document.getRootElement().getText();
-						System.out.println("rootElement::" + rootElement);
+						//System.out.println("rootElement::" + rootElement);
 						Element rootNode = document.getRootElement();
-						System.out.println("rootNodeName::" + rootNode.getName());
+						//System.out.println("rootNodeName::" + rootNode.getName());
 
 						List<Element> rootChildren = rootNode.getChildren();
 
@@ -131,7 +131,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 						while (rootChildrenIterator.hasNext()) {
 							Element rootChildrenElement = rootChildrenIterator.next();
 							String rootChildrenElementName = rootChildrenElement.getName();
-							System.out.println(rootChildrenElementName);
+							//System.out.println(rootChildrenElementName);
 
 							if (rootChildrenElementName == "meta") {
 								List metaChildren = rootChildrenElement.getChildren();
@@ -142,7 +142,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 											.next();
 									String metaChildrenElementName = metaChildrenElement
 											.getName();
-									System.out.println(metaChildrenElementName);
+									//System.out.println(metaChildrenElementName);
 
 									if (metaChildrenElementName == "source") {
 
@@ -161,12 +161,12 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 													.getName();
 											String sourceChildrenElementText = sourceChildrenElement
 													.getText();
-											System.out.println("sourceChildrenElementName::" + sourceChildrenElementName);
-											System.out.println("sourceChildrenElementText::" + sourceChildrenElementText);
+											//System.out.println("sourceChildrenElementName::" + sourceChildrenElementName);
+											//System.out.println("sourceChildrenElementText::" + sourceChildrenElementText);
 											
 											if (sourceChildrenElementName == "author") {
 												
-												System.out.println("author:" + sourceChildrenElementText);
+												//System.out.println("author:" + sourceChildrenElementText);
 												
 												if ( !sourceChildrenElementText.equals("")) {
 													hasAuthor = true;
@@ -174,7 +174,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 											}
 											if (sourceChildrenElementName == "date") {
 												
-												System.out.println("date:" + sourceChildrenElementText);
+												//System.out.println("date:" + sourceChildrenElementText);
 												
 												if ( !sourceChildrenElementText.equals("")) {
 													hasDate = true;
@@ -182,7 +182,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 											}
 											if (sourceChildrenElementName == "title") {
 												
-												System.out.println("title:" + sourceChildrenElementText);
+												//System.out.println("title:" + sourceChildrenElementText);
 												
 												if ( !sourceChildrenElementText.equals("")) {
 													hasTitle = true;
@@ -228,7 +228,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					// String timestamp = new Timestamp(date.getTime()).toString();
 					// String timestamp = new Timestamp((System.currentTimeMillis())/1000).toString();
 					String timestamp = new Timestamp(System.currentTimeMillis()).toString();
-					System.out.println("timestamp : " + timestamp);
+					//System.out.println("timestamp : " + timestamp);
 					
 					timestamp = timestamp.replace("-", "_");
 					timestamp = timestamp.replace(" ", "_");
@@ -247,14 +247,14 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 					new File(fullUserFolder + File.separator + "input").mkdirs();
 					new File(fullUserFolder + "-output").mkdirs();
 					
-					System.out.println("fullUserFolder::" + fullUserFolder);
-					System.out.println("create::" + new File(fullUserFolder).exists());
+					///System.out.println("fullUserFolder::" + fullUserFolder);
+					//System.out.println("create::" + new File(fullUserFolder).exists());
 					
 					// final StringBuilder overallError = new StringBuilder();
 					List<XmlModelFile> overallXmlModelFiles = new LinkedList<XmlModelFile>();
 					
 					for (int i = 0; i < treatments.size(); i++ ) {
-						System.out.println("treatments.get(i)::" + treatments.get(i));
+						//System.out.println("treatments.get(i)::" + treatments.get(i));
 						String operator = "MicroPIEWebAgent";
 						ServerXmlModelFileCreator serverXmlModelFileCreator = new ServerXmlModelFileCreator();
 						XmlModelFile xmlModelFile = serverXmlModelFileCreator.createXmlModelFile(treatments.get(i), operator);
@@ -278,14 +278,14 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 							
 							// System.out.println("Finish Creating XML Files.");
 							// returnMsg = "Finish Creating XML Files.";
-							System.out.println(submitMsg);
+							//System.out.println(submitMsg);
 							returnMsg = submitMsg;
 							returnStatus = "OK";
 							
 							
 						} catch (IOException e) {
 							// exception handling left as an exercise for the reader
-							System.out.println("Fail to create XML files.");
+							//System.out.println("Fail to create XML files.");
 							returnMsg = "Fail to create XML files. Your taxonomic description(s) is not valid. Please check it.";
 							
 						}
@@ -349,7 +349,7 @@ public class MyService extends RemoteServiceServlet implements IMyService {
 				
 				// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "micropieOutput");
 				// final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", "micropieInput", "-o", "456");
-		        final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder, "-o", fullUserFolder + "-output");
+		        final MicroPIE microPIE = new ExtraJvmMicroPIE("-i", fullUserFolder, "-o", fullUserFolder + "-output", null, null, null, null);
 				
 				
 				final ListenableFuture<Void> futureResult = executorService.submit(microPIE);

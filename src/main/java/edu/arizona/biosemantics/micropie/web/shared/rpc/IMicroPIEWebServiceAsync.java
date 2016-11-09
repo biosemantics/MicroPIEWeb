@@ -9,7 +9,7 @@ public interface IMicroPIEWebServiceAsync{
 	
 	public void doSomething(Something something, AsyncCallback<String> callback);
 	
-	public void submitToMicroPIE(String emailAddr, String batchText, AsyncCallback<SubmitToMicroPIE> callback);
+	public void submitToMicroPIE(String emailAddr, String batchText, String outputFormat, String infValue, AsyncCallback<SubmitToMicroPIE> callback);
 	
 
 	

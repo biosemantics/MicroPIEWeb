@@ -28,17 +28,29 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 	//jin add, the folder of the models
 	private String modelDirPara;
 	private String modelDir;
+	
+	private String outputFormatPara;//-f
+	private String outputFormat;
+	
+	private String inferValuePara;//-vi
+	private String inferValue;
 
 	// private String micropieSourceDir;
 
 	// public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir, String micropieSourceDir) {
-	public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir) {
+	public ExtraJvmMicroPIE(String inputDirPara, String inputDir, String outputDirPara, String outputDir,
+			String outputFormatPara, String outputFormat, String inferValuePara, String infValue) {
 		this.inputDirPara = inputDirPara;
 		this.inputDir = inputDir;
 		this.outputDirPara = outputDirPara;
 		this.outputDir = outputDir;
 		this.modelDirPara ="-m";
 		this.modelDir = Configuration.modelDir;
+		this.outputFormatPara = outputFormatPara;
+		this.outputFormat = outputFormat;
+		this.inferValuePara = inferValuePara;
+		this.inferValue = infValue;
+		
 		this.setArgs(createArgs());
 		
 		// Step 1: Copy micropieInput folder
@@ -50,7 +62,12 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 	}
 
 	private String[] createArgs() {
-		String[] args = new String[6];
+		String[] args = null;
+		if(outputFormat==null){
+			args = new String[8];
+		}else{
+			args = new String[10];
+		}
 		args[0] = inputDirPara;
 		args[1] = inputDir;
 		args[2] = outputDirPara;
@@ -59,6 +76,16 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 		args[4] = modelDirPara;
 		args[5] = modelDir;
 
+		if(outputFormat==null){
+			args[6] = inferValuePara;
+			args[7] = inferValue;
+		}else{
+			args[6] = outputFormatPara;
+			args[7] = outputFormat;
+			args[8] = inferValuePara;
+			args[9] = inferValue;
+		}
+		
 		return args;
 	}
 
@@ -75,9 +102,9 @@ public class ExtraJvmMicroPIE extends ExtraJvmCallable<Void> implements
 
 	public static void main(String[] args) throws Exception {
 
-		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "F:/MicroPIE/micropieweb/micropieInput",
-				"-o", "F:/MicroPIE/micropieweb/micropieOutput");
-		micropie.call();
+//		ExtraJvmMicroPIE micropie = new ExtraJvmMicroPIE("-i", "F:/MicroPIE/micropieweb/micropieInput",
+//				"-o", "F:/MicroPIE/micropieweb/micropieOutput");
+//		micropie.call();
 
 	}
 
